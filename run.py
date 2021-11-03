@@ -8,7 +8,7 @@ if not os.getenv("APP_SETTINGS"):
 
 from structlog import wrap_logger  # NOQA
 
-from application import app  # NOQA
+from mock_eq import app  # NOQA
 
 logger = wrap_logger(logging.getLogger(__name__))
 
