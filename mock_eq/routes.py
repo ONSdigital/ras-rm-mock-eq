@@ -11,4 +11,4 @@ def mock_eq():
 def receipt():
     # set up pubsub receipt
     # set eQ to COMPLETE
-    return redirect(location = "http://localhost:8082")
+    return redirect("http://localhost:8082")
