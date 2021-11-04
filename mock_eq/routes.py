@@ -4,8 +4,8 @@ from mock_eq import app
 @app.route("/")
 @app.route("/mock-eq", methods=['GET'])
 def mock_eq():
-    # set eQ to INPROGRESS
-    return render_template('base.html', title='Base Page')
+    # set eQ to INPROGRESS??
+    return render_template('base.html', title='Mock eQ')
 
 @app.route("/receipt")
 def receipt():

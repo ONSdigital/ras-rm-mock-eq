@@ -2,7 +2,7 @@ import logging
 import os
 
 # If no APP_SETTINGS in environment variables use developer settings
-# This has to run before triggering frontstage.__init__.py
+# This has to run before triggering mock_eq.__init__.py
 if not os.getenv("APP_SETTINGS"):
     os.environ["APP_SETTINGS"] = "DevelopmentConfig"
 
