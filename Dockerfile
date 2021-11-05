@@ -4,7 +4,7 @@ RUN apt update && apt install -y build-essential curl
 RUN pip install pipenv
 
 WORKDIR /app
-EXPOSE 8080
+EXPOSE 8086
 
 COPY . /app
 RUN pipenv install --deploy --system
