@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mock_eq
+  labels:
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mock_eq
+  template:
+    metadata:
+      labels:
+        app: mock_eq
+    spec:
+      containers:
+        - name: mock_eq
+        image: mock_eq:1.0.0
+        ports:
+          containerPort: 8080
+        readinessProbe:
+          httpGet:
+            path: /info
+            port: 8080
+            initialDelaySeconds: 1
+            periodSeconds: 20
+            failureThreshold: 5
+            successThreshold: 1
+            timeoutSeconds: 5
+        livenessProbe:
+          path: /info
+          port: 8080
+          initialDelaySeconds: 1
+          periodSeconds: 20
+          failureThreshold: 5
+          successThreshold: 1
+          timeoutSeconds: 5
