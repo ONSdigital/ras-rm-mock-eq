@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: mock_eq
+  name: mock-eq
 spec:
   selector:
-    app: mock_eq
+    app: mock-eq
   ports:
     - protocol: TCP
       port: 8080
