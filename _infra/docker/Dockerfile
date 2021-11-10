@@ -10,4 +10,4 @@ COPY . /app
 RUN pipenv install --deploy --system
 
 EXPOSE 8082
-CMD ["gunicorn", "-c", "gunicorn.py", "mock-eq:app"]
+CMD ["gunicorn", "-c", "gunicorn.py", "mock_eq:app"]
