@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mock-eq
+  labels:
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mock-eq
+  template:
+    metadata:
+      labels:
+        app: mock-eq
+    spec:
+      containers:
+      - name: mock-eq
+        image: gga1812/mock-eq:1.2
+        ports:
+        - name: http-server
+          containerPort: 8080
+        resources:
+          limits:
+            cpu: "200m"
+            memory: "200Mi"
+          requests:
+            cpu: "100m"
+            memory: "100Mi"
+      imagePullSecrets:
+      - name: regcred
+      # readinessProbe:
+      #   httpGet:
+      #       path: /info
+      #       port: 8080
+      #     initialDelaySeconds: 1
+      #     periodSeconds: 20
+      #     failureThreshold: 5
+      #     successThreshold: 1
+      #     timeoutSeconds: 5
+      # livenessProbe:
+      #     path: /info
+      #     port: 8080
+      #   initialDelaySeconds: 1
+      #   periodSeconds: 20
+      #   failureThreshold: 5
+      #   successThreshold: 1
+      #   timeoutSeconds: 5
