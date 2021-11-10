@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mock-eq
+  name: {{ .Chart.Name }}
   labels:
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mock-eq
+      app: {{ .Chart.Name }}
   template:
     metadata:
       labels:
-        app: mock-eq
+        app: {{ .Chart.Name }}
     spec:
       containers:
-      - name: mock-eq
+      - name: {{ .Chart.Name }}
         image: gga1812/mock-eq:1.2
         ports:
         - name: http-server
