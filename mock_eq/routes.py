@@ -1,10 +1,10 @@
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template, redirect, request
 from mock_eq import app
 
 @app.route("/")
-@app.route("/mock-eq", methods=['GET'])
+@app.route("/session", methods=['GET'])
 def mock_eq():
-    # set eQ to INPROGRESS??
+    token = request.args.get('token', None)
     return render_template('base.html', title='Mock eQ')
 
 @app.route("/receipt")
