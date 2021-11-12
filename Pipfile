@@ -8,6 +8,7 @@ flask = "*"
 structlog = "*"
 gunicorn = "*"
 gevent = "*"
+sdc-cryptography = "*"
 
 [dev-packages]
 
