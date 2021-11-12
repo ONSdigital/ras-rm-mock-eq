@@ -30,6 +30,12 @@ spec:
           requests:
             cpu: "100m"
             memory: "100Mi"
+        env:
+        - name: JSON_SECRET_KEYS
+          valueFrom:
+            secretKeyRef:
+              name: json-secrets
+              key: json-secret-keys-mock-eq
       # readinessProbe:
       #   httpGet:
       #       path: /info
