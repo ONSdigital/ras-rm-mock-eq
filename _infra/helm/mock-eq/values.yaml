@@ -2,7 +2,7 @@ env: minikube
 namespace: minikube
 
 gcp:
-  project: ras-rm-sandbox
+  project: ras-rm-dev
   topic: ras-rm-notify-test
 
 image:

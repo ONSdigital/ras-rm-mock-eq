@@ -34,8 +34,8 @@ spec:
         - name: JSON_SECRET_KEYS
           valueFrom:
             secretKeyRef:
-              name: json-secrets
-              key: json-secret-keys-mock-eq
+              name: mock-eq
+              key: mock-eq
       # readinessProbe:
       #   httpGet:
       #       path: /info
