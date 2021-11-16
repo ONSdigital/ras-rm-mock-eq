@@ -6,6 +6,8 @@ from sdc.crypto.key_store import KeyStore, validate_required_keys
 
 import json
 
+import logging
+
 KEY_PURPOSE = "authentication"
 
 
@@ -15,9 +17,12 @@ def mock_eq():
     payload = request.args.get('token', None)
 
     json_secret_keys = app.config["JSON_SECRET_KEYS"]
+    logging.info(json_secret_keys)
+    logging.info('here')
     decrypter = Decrypter(json_secret_keys)
 
     payload_json = decrypter.decrypt(payload)
+    logging.info(payload_json)
     return render_template('base.html', title='Mock eQ')
 
 
