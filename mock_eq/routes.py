@@ -20,12 +20,15 @@ def mock_eq():
 
     json_secret_keys = app.config["JSON_SECRET_KEYS"]
     print('here')
-    payload.log.warning(json_secret_keys)
-    payload.log.info('here')
-    # decrypter = Decrypter(json_secret_keys)
+    print('here')
+    print(json_secret_keys)
+    decrypter = Decrypter(json_secret_keys)
 
-    # payload_json = decrypter.decrypt(payload)
-    # log.info(payload_json)
+    payload_json = decrypter.decrypt(payload)
+    print('here')
+    print('here')
+    print('payload_json')
+    print(payload_json)
     return render_template('base.html', title='Mock eQ')
 
 
