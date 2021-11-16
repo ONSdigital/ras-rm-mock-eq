@@ -22,13 +22,13 @@ def mock_eq():
     print('here')
     print('here')
     print(json_secret_keys)
-    decrypter = Decrypter(json_secret_keys)
+    # decrypter = Decrypter(json_secret_keys)
 
-    payload_json = decrypter.decrypt(payload)
+    # payload_json = decrypter.decrypt(payload)
     print('here')
     print('here')
     print('payload_json')
-    print(payload_json)
+    # print(payload_json)
     return render_template('base.html', title='Mock eQ')
 
 
