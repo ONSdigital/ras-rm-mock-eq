@@ -22,8 +22,6 @@ def mock_eq():
     decrypter = Decrypter(json_secret_keys)
 
     payload_json = decrypter.decrypt(payload)
-    print('payload_json')
-    print(payload_json)
     return render_template('base.html', title='Mock eQ')
 
 
