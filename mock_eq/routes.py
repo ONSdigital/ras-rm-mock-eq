@@ -22,7 +22,7 @@ def mock_eq():
     print('here')
     print('here')
     print(json_secret_keys)
-    # decrypter = Decrypter(json_secret_keys)
+    decrypter = Decrypter(json_secret_keys)
 
     # payload_json = decrypter.decrypt(payload)
     print('here')
@@ -40,7 +40,7 @@ def receipt():
 class Decrypter:
     def __init__(self, json_secret_keys):
         keys = json.loads(json_secret_keys)
-        # print(keys)
+        print('herehereherhe')
         validate_required_keys(keys, KEY_PURPOSE)
         self.key_store = KeyStore(keys)
 
