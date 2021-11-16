@@ -20,8 +20,8 @@ def mock_eq():
 
     json_secret_keys = app.config["JSON_SECRET_KEYS"]
     print('here')
-    log.warning(json_secret_keys)
-    log.info('here')
+    payload.log.warning(json_secret_keys)
+    payload.log.info('here')
     # decrypter = Decrypter(json_secret_keys)
 
     # payload_json = decrypter.decrypt(payload)
