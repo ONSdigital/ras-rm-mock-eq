@@ -9,6 +9,8 @@ import json
 import logging
 
 KEY_PURPOSE = "authentication"
+log = logging.getLogger()
+logging.basicConfig()
 
 
 @app.route("/")
@@ -17,12 +19,13 @@ def mock_eq():
     payload = request.args.get('token', None)
 
     json_secret_keys = app.config["JSON_SECRET_KEYS"]
-    logging.info(json_secret_keys)
-    logging.info('here')
+    print('here')
+    log.warning(json_secret_keys)
+    log.info('here')
     decrypter = Decrypter(json_secret_keys)
 
     payload_json = decrypter.decrypt(payload)
-    logging.info(payload_json)
+    log.info(payload_json)
     return render_template('base.html', title='Mock eQ')
 
 
@@ -34,6 +37,7 @@ def receipt():
 class Decrypter:
     def __init__(self, json_secret_keys):
         keys = json.loads(json_secret_keys)
+        # print(keys)
         validate_required_keys(keys, KEY_PURPOSE)
         self.key_store = KeyStore(keys)
 
