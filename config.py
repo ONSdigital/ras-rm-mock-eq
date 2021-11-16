@@ -1,5 +1,6 @@
 import os
 
+
 class DevelopmentConfig(object):
     PORT = os.getenv("PORT", 8086)
     FRONTSTAGE_URL = os.getenv("FRONTSTAGE_URL", "http://localhost:8082/surveys/todo")

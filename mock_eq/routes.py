@@ -1,13 +1,13 @@
-from flask import Flask, render_template, redirect, request
+from flask import render_template, redirect, request
 from mock_eq import app
 
 from sdc.crypto.decrypter import decrypt
 from sdc.crypto.key_store import KeyStore, validate_required_keys
 
-import os
 import json
 
 KEY_PURPOSE = "authentication"
+
 
 @app.route("/")
 @app.route("/session", methods=['GET'])
@@ -15,19 +15,15 @@ def mock_eq():
     payload = request.args.get('token', None)
 
     json_secret_keys = app.config["JSON_SECRET_KEYS"]
-    print(json_secret_keys)
     decrypter = Decrypter(json_secret_keys)
 
-    # decrypted_json = decrypter.decrypt(payload)
-    # print(decrypted_json)
+    payload_json = decrypter.decrypt(payload)
     return render_template('base.html', title='Mock eQ')
+
 
 @app.route("/receipt")
 def receipt():
     return redirect(app.config["FRONTSTAGE_URL"])
-
-
-
 
 
 class Decrypter:
