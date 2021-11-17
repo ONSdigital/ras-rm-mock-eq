@@ -3,7 +3,7 @@ namespace: minikube
 
 gcp:
   project: ras-rm-dev
-  topic: ras-rm-notify-test
+  topic: sdx-receipt-dev
 
 image:
   devRepo: eu.gcr.io/ons-rasrmbs-management
