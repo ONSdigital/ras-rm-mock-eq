@@ -36,6 +36,13 @@ def mock_eq():
     print('publishing...')
     publisher.publish(json_payload)
     print('published')
+    print("")
+    print("")
+    print("")
+    print("")
+    print("")
+    print("")
+    print("")
     return render_template('base.html', title='Mock eQ', frontstage=app.config["FRONTSTAGE_URL"])
 
 
