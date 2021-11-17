@@ -24,6 +24,8 @@ def mock_eq():
     decrypter = Decrypter(json_secret_keys)
 
     json_payload = decrypter.decrypt(payload)
+    publisher = PubSub(app.config)
+    publisher.publish(json_payload)
     return render_template('base.html', title='Mock eQ', frontstage=app.config["FRONTSTAGE_URL"])
 
 
@@ -44,12 +46,12 @@ class Decrypter:
 
 
 class PubSub:
-    def __init__(self, config, json_payload):
+    def __init__(self, config):
         self.project_id = config["GOOGLE_CLOUD_PROJECT"]
         self.topic_id = config["PUBSUB_TOPIC"]
         self.publisher = None
 
-    def _publish(self, json_payload):
+    def publish(self, json_payload):
         bound_logger = logger.bind(template_id="mock_eq", project_id=self.project_id, topic_id=self.topic_id)
 
         if self.publisher is None:
