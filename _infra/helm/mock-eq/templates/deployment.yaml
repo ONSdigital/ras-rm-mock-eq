@@ -37,6 +37,12 @@ spec:
             secretKeyRef:
               name: mock-eq
               key: mock-eq
+        - name: GOOGLE_CLOUD_PROJECT
+          value: "{{ .Values.gcp.project }}"
+        - name: GOOGLE_APPLICATION_CREDENTIALS
+          value: /var/secrets/google/credentials.json
+        - name: PUBSUB_TOPIC
+          value: "{{ .Values.gcp.topic }}"
       # readinessProbe:
       #   httpGet:
       #       path: /info
