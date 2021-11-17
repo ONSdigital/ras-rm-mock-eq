@@ -1,4 +1,4 @@
-from flask import render_template, redirect, request
+from flask import render_template, request
 from mock_eq import app
 
 from sdc.crypto.decrypter import decrypt
@@ -24,8 +24,11 @@ def mock_eq():
     decrypter = Decrypter(json_secret_keys)
 
     json_payload = decrypter.decrypt(payload)
+    print('seetting publisher up')
     publisher = PubSub(app.config)
+    print('publishing...')
     publisher.publish(json_payload)
+    print('published')
     return render_template('base.html', title='Mock eQ', frontstage=app.config["FRONTSTAGE_URL"])
 
 
