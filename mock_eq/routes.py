@@ -79,7 +79,6 @@ class PubSub:
             print('topic path: ' + topic_path)
             bound_logger.info("About to publish to pubsub", topic_path=topic_path)
             future = self.publisher.publish(topic_path, data=payload_str.encode())
-            print("future: " + future)
 
             msg_id = future.result()
             print(msg_id)
