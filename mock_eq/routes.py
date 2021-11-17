@@ -54,6 +54,7 @@ class PubSub:
     def publish(self, json_payload):
         bound_logger = logger.bind(template_id="mock_eq", project_id=self.project_id, topic_id=self.topic_id)
 
+        payload_str = json.dumps(payload)
         if self.publisher is None:
             self.publisher = pubsub_v1.PublisherClient()
 
