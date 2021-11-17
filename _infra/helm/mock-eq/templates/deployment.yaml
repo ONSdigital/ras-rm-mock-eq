@@ -20,6 +20,7 @@ spec:
         {{- else}}
         image: "{{ .Values.image.devRepo }}/{{ .Chart.Name }}:{{ .Values.image.tag }}"
         {{- end}}
+        imagePullPolicy: Always
         ports:
         - name: http-server
           containerPort: 8080
@@ -30,6 +31,12 @@ spec:
           requests:
             cpu: "100m"
             memory: "100Mi"
+        env:
+        - name: JSON_SECRET_KEYS
+          valueFrom:
+            secretKeyRef:
+              name: mock-eq
+              key: mock-eq
       # readinessProbe:
       #   httpGet:
       #       path: /info

@@ -1,3 +1,10 @@
+env: minikube
+namespace: minikube
+
+gcp:
+  project: ras-rm-dev
+  topic: ras-rm-notify-test
+
 image:
   devRepo: eu.gcr.io/ons-rasrmbs-management
   name: eu.gcr.io/ons-rasrmbs-management
