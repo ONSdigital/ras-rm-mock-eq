@@ -22,12 +22,7 @@ def mock_eq():
     decrypter = Decrypter(json_secret_keys)
 
     payload_json = decrypter.decrypt(payload)
-    return render_template('base.html', title='Mock eQ')
-
-
-@app.route("/receipt")
-def receipt():
-    return redirect(app.config["FRONTSTAGE_URL"])
+    return render_template('base.html', title='Mock eQ', frontstage=app.config["FRONTSTAGE_URL"])
 
 
 class Decrypter:
