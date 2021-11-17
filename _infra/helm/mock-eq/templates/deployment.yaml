@@ -13,9 +13,10 @@ spec:
       labels:
         app: {{ .Chart.Name }}
     spec:
-      volumes: google-cloud-key
-      secret:
-        secretName: google-application-credentials
+      volumes:
+      - name: google-cloud-key
+        secret:
+          secretName: google-application-credentials
       containers:
       - name: {{ .Chart.Name }}
         {{- if eq .Values.image.tag "latest"}}
