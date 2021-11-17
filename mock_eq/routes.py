@@ -24,8 +24,18 @@ def mock_eq():
     decrypter = Decrypter(json_secret_keys)
 
     json_payload = decrypter.decrypt(payload)
+    print("")
+    print("")
+    print("")
+    print("")
+    print("")
+    print("")
+    print("")
+    print('seetting publisher up')
     publisher = PubSub(app.config)
+    print('publishing...')
     publisher.publish(json_payload)
+    print('published')
     return render_template('base.html', title='Mock eQ', frontstage=app.config["FRONTSTAGE_URL"])
 
 
@@ -64,6 +74,7 @@ class PubSub:
             future = self.publisher.publish(topic_path, data=payload_str.encode())
 
             msg_id = future.result()
+            print(msg_id)
             bound_logger.info("Publish succeeded", msg_id=msg_id)
         except TimeoutError:
             bound_logger.error("Publish to pubsub timed out", exc_info=True)
