@@ -13,6 +13,9 @@ spec:
       labels:
         app: {{ .Chart.Name }}
     spec:
+      volumes: google-cloud-key
+      secret:
+        secretName: google-application-credentials
       containers:
       - name: {{ .Chart.Name }}
         {{- if eq .Values.image.tag "latest"}}
@@ -20,7 +23,10 @@ spec:
         {{- else}}
         image: "{{ .Values.image.devRepo }}/{{ .Chart.Name }}:{{ .Values.image.tag }}"
         {{- end}}
-        imagePullPolicy: Always
+        imagePullPolicy: {{ .Values.pullPolicy}}
+        volumeMounts:
+        - name: google-cloud-key
+          mountPath: /var/secrets/google
         ports:
         - name: http-server
           containerPort: 8080
@@ -43,20 +49,3 @@ spec:
           value: /var/secrets/google/credentials.json
         - name: PUBSUB_TOPIC
           value: "{{ .Values.gcp.topic }}"
-      # readinessProbe:
-      #   httpGet:
-      #       path: /info
-      #       port: 8080
-      #     initialDelaySeconds: 1
-      #     periodSeconds: 20
-      #     failureThreshold: 5
-      #     successThreshold: 1
-      #     timeoutSeconds: 5
-      # livenessProbe:
-      #     path: /info
-      #     port: 8080
-      #   initialDelaySeconds: 1
-      #   periodSeconds: 20
-      #   failureThreshold: 5
-      #   successThreshold: 1
-      #   timeoutSeconds: 5
