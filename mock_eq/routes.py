@@ -73,6 +73,7 @@ class PubSub:
         if self.publisher is None:
             self.publisher = pubsub_v1.PublisherClient()
 
+        print('here')
         try:
             topic_path = self.publisher.topic_path(self.project_id, self.topic_id)
             print('topic path: ' + topic_path)
@@ -85,7 +86,9 @@ class PubSub:
             bound_logger.info("Publish succeeded", msg_id=msg_id)
         except TimeoutError:
             bound_logger.error("Publish to pubsub timed out", exc_info=True)
+            print("TimeoutError")
             raise
         except Exception:
             bound_logger.error("A non-timeout error was raised when publishing to pubsub", exc_info=True)
+            print("Error")
             raise
