@@ -1,15 +1,12 @@
 {% extends 'layouts/_base.html' %}
 
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="{{ url_for('static', filename='layout.css') }}">
-    <title>{{title}}</title>
-  </head>
-  <body>
-    <h1>Welcome to the Mock eQ App!</h1>
-    <a href="{{ url_for('receipt') }}?token={{ payload }}">Compete eQ Survey and Return to Frontstage\n</a>
-    <a href="{{ frontstage }}">Return to Frontstage</a>
-  </body>
-</html>
+{% set page_title = "Mock eQ" %}
+
+{% block content %}
+
+<h1>Welcome to the Mock eQ App!</h1>
+<a href="{{ url_for('receipt') }}?token={{ payload }}">Compete eQ Survey and Return to Frontstage</a>
+<p></p>
+<a href="{{ frontstage }}">Return to Frontstage</a>
+
+{% endblock content %}
