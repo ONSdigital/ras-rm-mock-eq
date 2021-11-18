@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: mock-eq
+  name: {{ .Chart.name }}
 spec:
-  type: ClusterIP
+  type: {{ .Values.service.type }}
   selector:
-    app: mock-eq
+    app: {{ .Chart.name }}
   ports:
     - protocol: TCP
-      port: 8080
-      targetPort: 8080
+      port: {{ .Values.service.port }}
+      targetPort: {{ .Values.container.port }}

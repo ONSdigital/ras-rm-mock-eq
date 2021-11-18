@@ -30,7 +30,7 @@ spec:
           mountPath: /var/secrets/google
         ports:
         - name: http-server
-          containerPort: 8080
+          containerPort: {{ .Values.container.port }}
         resources:
           {{ toYaml .Values.resources | nindent 12 }}
         env:
