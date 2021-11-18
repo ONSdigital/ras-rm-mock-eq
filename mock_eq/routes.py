@@ -18,14 +18,15 @@ logger = structlog.wrap_logger(logging.getLogger(__name__))
 @app.route("/")
 @app.route("/session", methods=['GET'])
 def mock_eq():
+    # global payload
     payload = request.args.get('token', None)
-    url = "https://localhost:8086/receipt?token=" + payload
-    return render_template('base.html', title='Mock eQ', frontstage=app.config["FRONTSTAGE_URL"], receipt=url)
+    return render_template('base.html', title='Mock eQ', frontstage=app.config["FRONTSTAGE_URL"], payload=payload)
 
 
 @app.route("/receipt", methods=["GET"])
 def receipt():
     payload = request.args.get('token', None)
+    # global payload
 
     json_secret_keys = app.config["JSON_SECRET_KEYS"]
     decrypter = Decrypter(json_secret_keys)

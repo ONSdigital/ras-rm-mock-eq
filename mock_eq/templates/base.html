@@ -7,7 +7,7 @@
   </head>
   <body>
     <h1>Welcome to the Mock eQ App!</h1>
-    <a href="{{ receipt }}">Compete eQ Survey and Return to Frontstage</a>
+    <a href="{{ url_for('receipt') }}?token={{ payload }}">Compete eQ Survey and Return to Frontstage</a>
     <a href="{{ frontstage }}">Return to Frontstage</a>
   </body>
 </html>
