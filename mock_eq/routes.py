@@ -19,8 +19,8 @@ logger = structlog.wrap_logger(logging.getLogger(__name__))
 @app.route("/session", methods=['GET'])
 def mock_eq():
     payload = request.args.get('token', None)
-    url = app.config["FRONTSTAGE_URL"] + "?token=" + payload
-    return render_template('base.html', title='Mock eQ', frontstage=url)
+    url = "https://localhost:8086/receipt?token=" + payload
+    return render_template('base.html', title='Mock eQ', frontstage=app.config["FRONTSTAGE_URL"], receipt=url)
 
 
 @app.route("/receipt", methods=["GET"])
