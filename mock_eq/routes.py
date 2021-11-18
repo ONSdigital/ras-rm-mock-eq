@@ -1,4 +1,4 @@
-from flask import render_template, request
+from flask import render_template, request, redirect
 from mock_eq import app
 
 from sdc.crypto.decrypter import decrypt
@@ -18,6 +18,11 @@ logger = structlog.wrap_logger(logging.getLogger(__name__))
 @app.route("/")
 @app.route("/session", methods=['GET'])
 def mock_eq():
+    return render_template('base.html', title='Mock eQ', frontstage=app.config["FRONTSTAGE_URL"])
+
+
+@app.route("/receipt")
+def receipt():
     payload = request.args.get('token', None)
 
     json_secret_keys = app.config["JSON_SECRET_KEYS"]
@@ -31,24 +36,9 @@ def mock_eq():
         "partyId": json_payload["user_id"]
     }
 
-    print("")
-    print("")
-    print("")
-    print("")
-    print("")
-    print("")
-    print('seetting publisher up')
     publisher = PubSub(app.config)
-    print('publishing...')
     publisher.publish(pubsub_payload)
-    print('published')
-    print("")
-    print("")
-    print("")
-    print("")
-    print("")
-    print("")
-    return render_template('base.html', title='Mock eQ', frontstage=app.config["FRONTSTAGE_URL"])
+    return redirect(app.config["FRONTSTAGE_URL"])
 
 
 class Decrypter:
