@@ -18,7 +18,6 @@ logger = structlog.wrap_logger(logging.getLogger(__name__))
 @app.route("/")
 @app.route("/session", methods=['GET'])
 def mock_eq():
-    # global payload
     payload = request.args.get('token', None)
     return render_template('base.html', title='Mock eQ', frontstage=app.config["FRONTSTAGE_URL"], payload=payload)
 
@@ -26,7 +25,6 @@ def mock_eq():
 @app.route("/receipt", methods=["GET"])
 def receipt():
     payload = request.args.get('token', None)
-    # global payload
 
     json_secret_keys = app.config["JSON_SECRET_KEYS"]
     decrypter = Decrypter(json_secret_keys)
@@ -75,7 +73,6 @@ class PubSub:
 
         try:
             topic_path = self.publisher.topic_path(self.project_id, self.topic_id)
-            print('topic path: ' + topic_path)
             bound_logger.info("About to publish to pubsub", topic_path=topic_path)
             future = self.publisher.publish(topic_path, data=payload_str.encode())
 
