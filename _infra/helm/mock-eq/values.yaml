@@ -10,3 +10,11 @@ image:
   name: eu.gcr.io/ons-rasrmbs-management
   tag: latest
   pullPolicy: Always
+
+resources:
+  limits:
+    cpu: "100m"
+    memory: "150Mi"
+  requests:
+    cpu: "50m"
+    memory: "100Mi"

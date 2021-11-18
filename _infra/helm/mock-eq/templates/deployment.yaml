@@ -32,12 +32,7 @@ spec:
         - name: http-server
           containerPort: 8080
         resources:
-          limits:
-            cpu: "100m"
-            memory: "200Mi"
-          requests:
-            cpu: "50m"
-            memory: "100Mi"
+          {{ toYaml .Values.resources | nindent 12 }}
         env:
         - name: JSON_SECRET_KEYS
           valueFrom:
