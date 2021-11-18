@@ -24,6 +24,13 @@ def mock_eq():
     decrypter = Decrypter(json_secret_keys)
 
     json_payload = decrypter.decrypt(payload)
+    pubsub_payload = {
+        "caseRef": json_payload["case_ref"],
+        "caseId": json_payload["case_id"],
+        "inboundChannel": "OFFLINE",
+        "partyId": json_payload["user_id"]
+    }
+
     print("")
     print("")
     print("")
@@ -33,7 +40,7 @@ def mock_eq():
     print('seetting publisher up')
     publisher = PubSub(app.config)
     print('publishing...')
-    publisher.publish(json_payload)
+    publisher.publish(pubsub_payload)
     print('published')
     print("")
     print("")
@@ -73,7 +80,6 @@ class PubSub:
         if self.publisher is None:
             self.publisher = pubsub_v1.PublisherClient()
 
-        print('here')
         try:
             topic_path = self.publisher.topic_path(self.project_id, self.topic_id)
             print('topic path: ' + topic_path)
@@ -81,13 +87,10 @@ class PubSub:
             future = self.publisher.publish(topic_path, data=payload_str.encode())
 
             msg_id = future.result()
-            print(msg_id)
             bound_logger.info("Publish succeeded", msg_id=msg_id)
         except TimeoutError:
             bound_logger.error("Publish to pubsub timed out", exc_info=True)
-            print("TimeoutError")
             raise
         except Exception:
             bound_logger.error("A non-timeout error was raised when publishing to pubsub", exc_info=True)
-            print("Error")
             raise
