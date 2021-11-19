@@ -1,13 +1,20 @@
-from flask import render_template, request, redirect
+from flask import render_template, request, redirect, make_response, jsonify
 from mock_eq import app
+from pathlib import Path
 
 from mock_eq.common.decrypter import Decrypter
 from mock_eq.common.pubsub import PubSub
 
 import logging
 import structlog
+import json
 
 logger = structlog.wrap_logger(logging.getLogger(__name__))
+
+_health_check = {}
+if Path("git_info").exists():
+    with open("git_info") as io:
+        _health_check = json.loads(io.read())
 
 
 @app.route("/")
@@ -35,3 +42,13 @@ def receipt():
     publisher = PubSub(app.config)
     publisher.publish(pubsub_payload)
     return redirect(app.config["FRONTSTAGE_URL"])
+
+
+@app.route("/info", METHODS=["GET"])
+def info():
+    info = {
+        "name": "ras-frontstage",
+        "version": app.config["VERSION"],
+    }
+    info = dict(_health_check, **info)
+    return make_response(jsonify(info))
