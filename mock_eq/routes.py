@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, make_response, jsonify
+from flask import render_template, request, redirect
 from mock_eq import app
 from pathlib import Path
 
@@ -42,13 +42,3 @@ def receipt():
     publisher = PubSub(app.config)
     publisher.publish(pubsub_payload)
     return redirect(app.config["FRONTSTAGE_URL"])
-
-
-@app.route("/info", METHODS=["GET"])
-def info():
-    info = {
-        "name": "mock-eq",
-        "version": app.config["VERSION"],
-    }
-    info = dict(_health_check, **info)
-    return make_response(jsonify(info))
