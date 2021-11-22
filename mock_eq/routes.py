@@ -17,7 +17,7 @@ def mock_eq():
     if payload is None:
         logger.error("No payload passed from frontstage")
         flash("No payload passed from frontstage")
-    return render_template('base.html', title='Mock eQ', frontstage=app.config["FRONTSTAGE_URL"], payload=payload)
+    return render_template('mock_eq.html', title='Mock eQ', frontstage=app.config["FRONTSTAGE_URL"], payload=payload)
 
 
 @app.route("/receipt", methods=["GET"])
