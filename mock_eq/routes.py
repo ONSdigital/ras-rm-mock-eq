@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, flash
+from flask import render_template, request, redirect, flash, make_response, jsonify
 from mock_eq import app
 
 from mock_eq.common.decrypter import Decrypter
@@ -36,9 +36,19 @@ def receipt():
             "partyId": json_payload["user_id"]
         }
     except Exception:
-        logger.error("An error happend when decrypting the frontstage payload", exc_info=True)
+        logger.error(
+            "An error happend when decrypting the frontstage payload", exc_info=True)
         return render_template("errors/500-error.html", frontstage=app.config["FRONTSTAGE_URL"])
 
     publisher = PubSub(app.config)
     publisher.publish(pubsub_payload)
     return redirect(app.config["FRONTSTAGE_URL"])
+
+
+@app.route('/info', methods=["GET"])
+def info():
+    info = {
+        "name": "mock-eq",
+        "status": "healthy",
+    }
+    return make_response(jsonify(info), 200)
