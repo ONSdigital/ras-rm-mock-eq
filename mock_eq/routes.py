@@ -44,7 +44,7 @@ def receipt():
         }
     except Exception:
         logger.error("An error happend when decrypting the frontstage payload", exc_info=True)
-        return render_template("errors/500-error.html")
+        return render_template("errors/500-error.html", frontstage=app.config["FRONTSTAGE_URL"])
 
     publisher = PubSub(app.config)
     publisher.publish(pubsub_payload)
