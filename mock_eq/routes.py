@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect
+from flask import render_template, request, redirect, flash
 from mock_eq import app
 from pathlib import Path
 
@@ -21,6 +21,9 @@ if Path("git_info").exists():
 @app.route("/session", methods=['GET'])
 def mock_eq():
     payload = request.args.get('token', None)
+    if payload is None:
+        logger.error("No payload passed from frontstage")
+        flash("No payload passed from frontstage")
     return render_template('base.html', title='Mock eQ', frontstage=app.config["FRONTSTAGE_URL"], payload=payload)
 
 
@@ -28,16 +31,20 @@ def mock_eq():
 def receipt():
     payload = request.args.get('token', None)
 
-    json_secret_keys = app.config["JSON_SECRET_KEYS"]
-    decrypter = Decrypter(json_secret_keys)
+    try:
+        json_secret_keys = app.config["JSON_SECRET_KEYS"]
+        decrypter = Decrypter(json_secret_keys)
 
-    json_payload = decrypter.decrypt(payload)
-    pubsub_payload = {
-        "caseRef": json_payload["case_ref"],
-        "caseId": json_payload["case_id"],
-        "inboundChannel": "OFFLINE",
-        "partyId": json_payload["user_id"]
-    }
+        json_payload = decrypter.decrypt(payload)
+        pubsub_payload = {
+            "caseRef": json_payload["case_ref"],
+            "caseId": json_payload["case_id"],
+            "inboundChannel": "OFFLINE",
+            "partyId": json_payload["user_id"]
+        }
+    except Exception:
+        logger.error("An error happend when decrypting the frontstage payload", exc_info=True)
+        raise
 
     publisher = PubSub(app.config)
     publisher.publish(pubsub_payload)
