@@ -44,7 +44,7 @@ def receipt():
         }
     except Exception:
         logger.error("An error happend when decrypting the frontstage payload", exc_info=True)
-        raise
+        return render_template("errors/5000-error.html")
 
     publisher = PubSub(app.config)
     publisher.publish(pubsub_payload)
