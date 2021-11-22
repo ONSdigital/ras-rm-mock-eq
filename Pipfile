@@ -9,7 +9,7 @@ structlog = "*"
 gunicorn = "*"
 gevent = "*"
 sdc-cryptography = "*"
-google-cloud-pubsub = "==1.7.0"
+google-cloud-pubsub = "*"
 
 [dev-packages]
 
