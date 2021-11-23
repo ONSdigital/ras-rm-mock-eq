@@ -1,0 +1,37 @@
+{% extends "layout/_template.njk" %}
+{% from "components/cookies-banner/_macro.njk" import onsCookiesBanner %}
+
+{% block head %}
+    {% set css_theme = "css/"~_theme~"/theme.css" %}
+    <link href="{{ url_for('static', filename=css_theme) }}" rel="stylesheet" />
+{% endblock %}
+{% block bodyStart %}
+  {% if config.GOOGLE_TAG_MANAGER %}
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ config.GOOGLE_TAG_MANAGER }}&gtm_auth={{ config.GOOGLE_TAG_MANAGER_PROP }}&gtm_cookies_win=x"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+   {% endif %}
+{% endblock %}
+{% set pageConfig = {
+  "title": page_title + " | Mock eQ" if page_title else "Mock eQ",
+  "header": {
+    "title": "Mock eQ",
+  }
+} %}
+
+{% from "components/panel/_macro.njk" import onsPanel %}
+{%- block pageContent %}
+  <div class="page__container container">
+   {% block breadcrumb %}{% endblock breadcrumb %}
+    <div class="grid">
+      <div class="grid__col col-12@m u-pt-no">
+        <main id="main-content" class="page__main {{ pageClasses }}">
+          {%- block content %}{% endblock content -%}
+        </main>
+      </div>
+    </div>
+  </div>
+{% endblock pageContent -%}
+{% block bodyEnd %}
+{% endblock %}

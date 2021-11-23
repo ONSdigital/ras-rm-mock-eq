@@ -1,0 +1,24 @@
+.tab--row {
+  height:2.55rem;
+}
+
+.tab--row[aria-selected=true]:after {
+  height: .11rem;
+}
+
+.notification-badge {
+  display: inline-block;
+  min-width: 28px;
+  padding: 0px 4px 0 3px;
+  margin-left: 8px;
+  border-radius: 16px;
+  color: #fff;
+  background: #4263c2;
+  font-weight: 600;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.no-js .hide-if-no-js {
+  display: none;
+}

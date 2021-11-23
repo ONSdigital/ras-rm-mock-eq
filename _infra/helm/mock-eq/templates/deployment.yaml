@@ -13,6 +13,10 @@ spec:
       labels:
         app: {{ .Chart.Name }}
     spec:
+      volumes:
+      - name: google-cloud-key
+        secret:
+          secretName: google-application-credentials
       containers:
       - name: {{ .Chart.Name }}
         {{- if eq .Values.image.tag "latest"}}
@@ -21,36 +25,41 @@ spec:
         image: "{{ .Values.image.devRepo }}/{{ .Chart.Name }}:{{ .Values.image.tag }}"
         {{- end}}
         imagePullPolicy: Always
+        volumeMounts:
+        - name: google-cloud-key
+          mountPath: /var/secrets/google
         ports:
         - name: http-server
-          containerPort: 8080
+          containerPort: {{ .Values.container.port }}
         resources:
-          limits:
-            cpu: "200m"
-            memory: "200Mi"
-          requests:
-            cpu: "100m"
-            memory: "100Mi"
+          {{ toYaml .Values.resources | nindent 12 }}
         env:
         - name: JSON_SECRET_KEYS
           valueFrom:
             secretKeyRef:
               name: mock-eq
               key: mock-eq
-      # readinessProbe:
-      #   httpGet:
-      #       path: /info
-      #       port: 8080
-      #     initialDelaySeconds: 1
-      #     periodSeconds: 20
-      #     failureThreshold: 5
-      #     successThreshold: 1
-      #     timeoutSeconds: 5
-      # livenessProbe:
-      #     path: /info
-      #     port: 8080
-      #   initialDelaySeconds: 1
-      #   periodSeconds: 20
-      #   failureThreshold: 5
-      #   successThreshold: 1
-      #   timeoutSeconds: 5
+        - name: GOOGLE_CLOUD_PROJECT
+          value: "{{ .Values.gcp.project }}"
+        - name: GOOGLE_APPLICATION_CREDENTIALS
+          value: /var/secrets/google/credentials.json
+        - name: PUBSUB_TOPIC
+          value: "{{ .Values.gcp.topic }}"
+        readinessProbe:
+          httpGet:
+            path: /info
+            port: {{ .Values.container.port }}
+          initialDelaySeconds: 1
+          periodSeconds: 20
+          failureThreshold: 5
+          successThreshold: 1
+          timeoutSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /info
+            port: {{ .Values.container.port }}
+          initialDelaySeconds: 1
+          periodSeconds: 20
+          failureThreshold: 5
+          successThreshold: 1
+          timeoutSeconds: 5
