@@ -51,4 +51,4 @@ def info():
         "name": "mock-eq",
         "status": "healthy",
     }
-    return make_response(jsonify(info), 200)
+    return jsonify(info)
