@@ -24,14 +24,6 @@
 {%- block pageContent %}
   <div class="page__container container">
    {% block breadcrumb %}{% endblock breadcrumb %}
-    {% if availability_message %}
-      {{
-          onsPanel({
-              "body": availability_message,
-              "classes": "u-mt-l"
-          })
-      }}
-    {% endif %}
     <div class="grid">
       <div class="grid__col col-12@m u-pt-no">
         <main id="main-content" class="page__main {{ pageClasses }}">
