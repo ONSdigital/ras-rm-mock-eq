@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, flash
+from flask import render_template, request, redirect, flash, jsonify
 from mock_eq import app
 
 from mock_eq.common.decrypter import Decrypter
