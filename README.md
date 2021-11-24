@@ -23,9 +23,10 @@ Environment variables available for configuration are listed below:
 
 | Environment Variable            | Description                                                   | Default
 |---------------------------------|---------------------------------------------------------------|-------------------------------
+| PORT                            | Default `PORT` where `Mock EQ` listens                        | '8086'
 | JSON_SECRET_KEYS                | SECRET used for decrypting frontstage payload                 | 'testsecret'
 | FRONTSTAGE_URL                  | Url pointed at frontstage in dev environment                  | 'http://localhost:8082/surveys/todo'
-| PUBSUB_TOPIC                    | Pub/Sub topic where `Mock EQ` publishes the receipt to mark as survey as completed| 'localhost'
-| GOOGLE_CLOUD_PROJECT            | GCP Project where the app exists                              | 8083
+| PUBSUB_TOPIC                    | Pub/Sub topic where `Mock EQ` publishes the receipt to mark as survey as completed| 'sdx-receipt-dev'
+| GOOGLE_CLOUD_PROJECT            | GCP Project where the app exists                              | 'ras-rm-dev'
 
 These are set in [config.py](config.py)
