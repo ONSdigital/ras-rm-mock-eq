@@ -16,7 +16,12 @@ def mock_eq():
     payload = request.args.get('token', None)
     if payload is None:
         logger.error("No payload passed from frontstage")
-        flash("No payload passed from frontstage")
+        try:
+            flash("No payload passed from frontstage")
+        except Exception:
+            logger.error(
+                "An error happend when loading the page", exc_info=True)
+            return render_template("errors/500-error.html", frontstage=app.config["FRONTSTAGE_URL"])
     return render_template('mock_eq.html', title='Mock eQ', frontstage=app.config["FRONTSTAGE_URL"], payload=payload)
 
 
