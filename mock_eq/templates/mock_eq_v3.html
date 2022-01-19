@@ -1,0 +1,13 @@
+{% extends 'layouts/_base.html' %}
+
+{% set page_title = "Mock eQ v3" %}
+
+{% block content %}
+<div>
+  <h1>Welcome to the Mock eQ v3 App!</h1>
+  <a id="completeEq" href="{{ url_for('receipt') }}?token={{ payload }}">Compete eQ v3 Survey and Return to Frontstage</a>
+  <p></p>
+  <a id="returnLink" href="{{ frontstage }}">Return to Frontstage</a>
+</div>
+
+{% endblock content %}
