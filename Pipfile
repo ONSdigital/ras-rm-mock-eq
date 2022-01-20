@@ -12,6 +12,7 @@ sdc-cryptography = "*"
 google-cloud-pubsub = "*"
 
 [dev-packages]
+black = "==21.12b0"
 
 [requires]
 python_version = "3.10"
