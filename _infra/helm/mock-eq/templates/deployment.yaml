@@ -43,6 +43,8 @@ spec:
           value: "{{ .Values.gcp.project }}"
         - name: GOOGLE_APPLICATION_CREDENTIALS
           value: /var/secrets/google/credentials.json
+        - name: FRONTSTAGE_URL
+          value: "http://frontstage.{{ .Values.namespace }}.svc.cluster.local:{{ .Values.dns.wellKnownPort }}/surveys/todo"
         - name: PUBSUB_TOPIC
           value: "{{ .Values.gcp.topic }}"
         readinessProbe:
