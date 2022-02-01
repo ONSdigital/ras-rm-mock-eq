@@ -1,4 +1,6 @@
 from flask import render_template, request, redirect, flash, jsonify
+from jwcrypto.jwe import InvalidJWEData
+
 from mock_eq import app
 
 from mock_eq.common.decrypter import Decrypter
@@ -56,6 +58,30 @@ def receipt():
     publisher = PubSub(app.config)
     publisher.publish(pubsub_payload)
     return redirect(app.config["FRONTSTAGE_URL"])
+
+
+@app.route("/complete-eq", methods=["GET"])
+def complete():
+    payload = request.args.get("token", None)
+
+    try:
+        json_secret_keys = app.config["JSON_SECRET_KEYS"]
+        decrypter = Decrypter(json_secret_keys)
+
+        json_payload = decrypter.decrypt(payload)
+        pubsub_payload = {
+            "caseRef": json_payload["case_ref"],
+            "caseId": json_payload["case_id"],
+            "inboundChannel": "OFFLINE",
+            "partyId": json_payload["user_id"],
+        }
+    except (KeyError, ValueError, InvalidJWEData):
+        logger.error("An error happened when decrypting the frontstage payload", exc_info=True)
+        return render_template("errors/500-error.html", frontstage=app.config["FRONTSTAGE_URL"])
+
+    publisher = PubSub(app.config)
+    publisher.publish(pubsub_payload)
+    return redirect(f'{request.referrer}surveys/history')
 
 
 @app.route("/info", methods=["GET"])
