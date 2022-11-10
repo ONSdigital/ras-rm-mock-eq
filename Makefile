@@ -10,4 +10,6 @@ start:
 	pipenv run python3 run.py
 
 lint:
+	pipenv check -i 51499
 	pipenv run black --line-length 120 .
+	pipenv run flake8
