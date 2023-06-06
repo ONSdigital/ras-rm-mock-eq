@@ -44,10 +44,10 @@ def receipt():
 
         json_payload = decrypter.decrypt(payload)
         pubsub_payload = {
-            "caseRef": json_payload["case_ref"],
+            "caseRef": json_payload["survey_metadata"]["data"]["case_ref"],
             "caseId": json_payload["case_id"],
             "inboundChannel": "OFFLINE",
-            "partyId": json_payload["user_id"],
+            "partyId": json_payload["survey_metadata"]["data"]["user_id"],
         }
     except Exception:
         logger.error("An error happened when decrypting the frontstage payload", exc_info=True)
