@@ -48,6 +48,7 @@ def receipt():
             "caseId": json_payload["case_id"],
             "inboundChannel": "OFFLINE",
             "partyId": json_payload["survey_metadata"]["data"]["user_id"],
+            "sds_dataset_id": json_payload["survey_metadata"]["data"]["sds_dataset_id"],
         }
     except Exception:
         logger.error("An error happened when decrypting the frontstage payload", exc_info=True)
