@@ -48,10 +48,10 @@ def receipt():
             "caseRef": json_payload["survey_metadata"]["data"]["case_ref"],
             "caseId": json_payload["case_id"],
             "inboundChannel": "OFFLINE",
-            "partyId": json_payload["survey_metadata"]["data"]["user_id"],
+            "partyId": json_payload["survey_metadata"]["data"]["user_id"]
         }
 
-        if json_payload["survey_metadata"]["data"]["sds_dataset_id"]:
+        if "sds_dataset_id" in json_payload["survey_metadata"]["data"]:
             pubsub_payload["sdsDatasetId"] = json_payload["survey_metadata"]["data"]["sds_dataset_id"]
 
 
