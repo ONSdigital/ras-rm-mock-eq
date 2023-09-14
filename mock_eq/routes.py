@@ -52,7 +52,7 @@ def receipt():
         }
 
         if ["survey_metadata"]["data"]["sds_dataset_id"]:
-            pubsub_payload["sds_dataset_id"] = ["survey_metadata"]["data"]["sds_dataset_id"]
+            pubsub_payload["sdsDatasetId"] = ["survey_metadata"]["data"]["sds_dataset_id"]
 
 
     except Exception:
