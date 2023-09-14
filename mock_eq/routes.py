@@ -43,13 +43,18 @@ def receipt():
         decrypter = Decrypter(json_secret_keys)
 
         json_payload = decrypter.decrypt(payload)
+
         pubsub_payload = {
             "caseRef": json_payload["survey_metadata"]["data"]["case_ref"],
             "caseId": json_payload["case_id"],
             "inboundChannel": "OFFLINE",
             "partyId": json_payload["survey_metadata"]["data"]["user_id"],
-            "sds_dataset_id": json_payload["survey_metadata"]["data"]["sds_dataset_id"],
         }
+
+        if ["survey_metadata"]["data"]["sds_dataset_id"]:
+            pubsub_payload["sds_dataset_id"] = ["survey_metadata"]["data"]["sds_dataset_id"]
+
+
     except Exception:
         logger.error("An error happened when decrypting the frontstage payload", exc_info=True)
         return render_template("errors/500-error.html", frontstage=app.config["FRONTSTAGE_URL"])
