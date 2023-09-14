@@ -51,8 +51,8 @@ def receipt():
             "partyId": json_payload["survey_metadata"]["data"]["user_id"],
         }
 
-        if ["survey_metadata"]["data"]["sds_dataset_id"]:
-            pubsub_payload["sdsDatasetId"] = ["survey_metadata"]["data"]["sds_dataset_id"]
+        if json_payload["survey_metadata"]["data"]["sds_dataset_id"]:
+            pubsub_payload["sdsDatasetId"] = json_payload["survey_metadata"]["data"]["sds_dataset_id"]
 
 
     except Exception:
