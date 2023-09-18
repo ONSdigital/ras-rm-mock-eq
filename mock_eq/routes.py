@@ -56,6 +56,7 @@ def receipt():
         if "sds_dataset_id" in json_payload["survey_metadata"]["data"]:
             pubsub_payload["sdsDatasetId"] = json_payload["survey_metadata"]["data"]["sds_dataset_id"]
 
+        logger.error("Payload check: " + str(pubsub_payload))
 
     except Exception:
         logger.error("An error happened when decrypting the frontstage payload", exc_info=True)
