@@ -44,6 +44,8 @@ def receipt():
 
         json_payload = decrypter.decrypt(payload)
 
+        logger.info("Payload received: " + str(json_payload))
+
         pubsub_payload = {
             "caseRef": json_payload["survey_metadata"]["data"]["case_ref"],
             "caseId": json_payload["case_id"],
