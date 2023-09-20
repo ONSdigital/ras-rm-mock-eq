@@ -47,7 +47,7 @@ jobs:
       - name: Setup Google Cloud SDK
         uses: google-github-actions/setup-gcloud@v0
       - run: |
-          gcloud auth configure-docker
+          gcloud auth configure-docker europe-west2-docker.pkg.dev
 
       - name: pr docker tag
         if: github.ref != 'refs/heads/main'
