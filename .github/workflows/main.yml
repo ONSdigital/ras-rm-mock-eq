@@ -64,7 +64,7 @@ jobs:
       - name: Push dev image
         if: github.ref != 'refs/heads/main'
         run: |
-          docker push "$REGISTRY_HOSTNAME"/"$HOST"/"GAR_$REPOSITORY"/"$IMAGE":${{ steps.tag.outputs.pr_number }}
+          docker push "$REGISTRY_HOSTNAME"/"$HOST"/"$GAR_REPOSITORY"/"$IMAGE":${{ steps.tag.outputs.pr_number }}
       - name: template helm
         run: |
           helm template $CHART_DIRECTORY
