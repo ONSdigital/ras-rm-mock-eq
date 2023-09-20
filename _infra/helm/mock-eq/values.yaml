@@ -6,8 +6,8 @@ gcp:
   topic: sdx-receipt-dev
 
 image:
-  devRepo: europe-west2-docker.pkg.dev/ras-rm-sandbox/ras-rm-docker-repo
-  name: europe-west2-docker.pkg.dev/ras-rm-sandbox/ras-rm-docker-repo
+  devRepo: europe-west2-docker.pkg.dev/ras-rm-management/images
+  name: europe-west2-docker.pkg.dev/ras-rm-management/images
   tag: latest
   pullPolicy: Always
 
