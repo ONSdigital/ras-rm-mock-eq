@@ -10,8 +10,8 @@ on:
 
 env:
   IMAGE: mock-eq
-  REGISTRY_HOSTNAME: eu.gcr.io
-  HOST: ras-rm-sandbox #TODO change for when done with sandbox
+  REGISTRY_HOSTNAME: europe-west2-docker.pkg.dev
+  HOST: ${{ secrets.GOOGLE_PROJECT_ID }}
   GAR_REPOSITORY: ras-rm-docker-repo #TODO add to secrets
   RELEASE_HOST: ${{ secrets.RELEASE_PROJECT_ID }}
   CHART_DIRECTORY: _infra/helm/mock-eq
@@ -60,11 +60,11 @@ jobs:
       - name: Build Docker Image
         if: github.ref != 'refs/heads/main'
         run: |
-          docker build -t "$REGISTRY_HOSTNAME"/"$HOST"/"$IMAGE":${{ steps.tag.outputs.pr_number }} -f _infra/docker/Dockerfile .
+          docker build -t "$REGISTRY_HOSTNAME"/"$HOST"/"$GAR_REPOSITORY"/"$IMAGE":${{ steps.tag.outputs.pr_number }} -f _infra/docker/Dockerfile .
       - name: Push dev image
         if: github.ref != 'refs/heads/main'
         run: |
-          docker push "$REGISTRY_HOSTNAME"/"$HOST"/"$IMAGE":${{ steps.tag.outputs.pr_number }}
+          docker push "$REGISTRY_HOSTNAME"/"$HOST"/"GAR_$REPOSITORY"/"$IMAGE":${{ steps.tag.outputs.pr_number }}
       - name: template helm
         run: |
           helm template $CHART_DIRECTORY
