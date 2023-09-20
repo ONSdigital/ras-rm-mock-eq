@@ -158,7 +158,7 @@ jobs:
       - name: Publish Charts
         if: github.ref == 'refs/heads/main'
         run: |
-          mv $IMAGE-${{ env.HELM_VERSION }}.tgz $IMAGE-latest.tgz
+          cp $IMAGE-${{ env.HELM_VERSION }}.tgz $IMAGE-latest.tgz
           gsutil cp $IMAGE-*.tgz gs://$ARTIFACT_BUCKET/$IMAGE/
 
       - uses: actions/create-release@v1
