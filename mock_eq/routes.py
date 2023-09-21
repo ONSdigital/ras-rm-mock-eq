@@ -1,11 +1,11 @@
+import logging
+import json
+import structlog
 from flask import render_template, request, redirect, flash, jsonify
-from mock_eq import app
 
+from mock_eq import app
 from mock_eq.common.decrypter import Decrypter
 from mock_eq.common.pubsub import PubSub
-
-import logging
-import structlog
 
 logger = structlog.wrap_logger(logging.getLogger(__name__))
 
@@ -13,11 +13,11 @@ logger = structlog.wrap_logger(logging.getLogger(__name__))
 @app.route("/")
 @app.route("/session", methods=["GET"])
 def mock_eq():
-    payload = request.args.get("token", None)
-    if payload is None:
-        logger.error("No payload passed from frontstage")
-        flash("No payload passed from frontstage")
-    return render_template("mock_eq.html", title="Mock eQ", frontstage=app.config["FRONTSTAGE_URL"], payload=payload)
+    token = request.args.get("token", None)
+    if token is None:
+        logger.error("No token passed from frontstage")
+        flash("No token passed from frontstage")
+    return render_template("mock_eq.html", title="Mock eQ", frontstage=app.config["FRONTSTAGE_URL"], token=token)
 
 
 @app.route("/v3/session", methods=["GET"])
@@ -25,24 +25,37 @@ def mock_eq_v3():
     # A similar endpoint to represent the EQ v3 site that now exists.  When it comes to the decryption in the /receipt
     # endpoint, the token should have the kid of key it needs to use.  If the keys have been set up correctly, it should
     # work for both eq and eq v3 without us having to do anything.
-    payload = request.args.get("token", None)
-    if payload is None:
-        logger.error("No payload passed from frontstage")
-        flash("No payload passed from frontstage")
-    return render_template(
-        "mock_eq_v3.html", title="Mock eQ v3", frontstage=app.config["FRONTSTAGE_URL"], payload=payload
-    )
-
-
-@app.route("/receipt", methods=["GET"])
-def receipt():
-    payload = request.args.get("token", None)
+    token = request.args.get("token", None)
+    if token is None:
+        logger.error("No token passed from frontstage")
+        flash("No token passed from frontstage")
 
     try:
         json_secret_keys = app.config["JSON_SECRET_KEYS"]
         decrypter = Decrypter(json_secret_keys)
 
-        json_payload = decrypter.decrypt(payload)
+        payload = decrypter.decrypt(token)
+        json_payload = json.dumps(payload, indent=2)
+
+    except Exception:
+        logger.error("An error happened when decrypting the frontstage token", exc_info=True)
+        return render_template("errors/500-error.html", frontstage=app.config["FRONTSTAGE_URL"])
+
+    return render_template(
+        "mock_eq_v3.html", title="Mock eQ v3", frontstage=app.config["FRONTSTAGE_URL"], token=token,
+        json_payload=json_payload
+    )
+
+
+@app.route("/receipt", methods=["GET"])
+def receipt():
+    token = request.args.get("token", None)
+
+    try:
+        json_secret_keys = app.config["JSON_SECRET_KEYS"]
+        decrypter = Decrypter(json_secret_keys)
+
+        json_payload = decrypter.decrypt(token)
         pubsub_payload = {
             "caseRef": json_payload["survey_metadata"]["data"]["case_ref"],
             "caseId": json_payload["case_id"],
@@ -54,7 +67,7 @@ def receipt():
             pubsub_payload["sdsDatasetId"] = json_payload["survey_metadata"]["data"]["sds_dataset_id"]
 
     except Exception:
-        logger.error("An error happened when decrypting the frontstage payload", exc_info=True)
+        logger.error("An error happened when decrypting the frontstage token", exc_info=True)
         return render_template("errors/500-error.html", frontstage=app.config["FRONTSTAGE_URL"])
 
     publisher = PubSub(app.config)
