@@ -1,5 +1,6 @@
-import logging
 import json
+import logging
+
 import structlog
 from flask import render_template, request, redirect, flash, jsonify
 
@@ -26,23 +27,29 @@ def mock_eq_v3():
     # endpoint, the token should have the kid of key it needs to use.  If the keys have been set up correctly, it should
     # work for both eq and eq v3 without us having to do anything.
     token = request.args.get("token", None)
+    decrypt_token = request.args.get("decryptToken", False)
+    json_payload = None
     if token is None:
         logger.error("No token passed from frontstage")
         flash("No token passed from frontstage")
+    if decrypt_token:
+        try:
+            json_secret_keys = app.config["JSON_SECRET_KEYS"]
+            decrypter = Decrypter(json_secret_keys)
 
-    try:
-        json_secret_keys = app.config["JSON_SECRET_KEYS"]
-        decrypter = Decrypter(json_secret_keys)
+            payload = decrypter.decrypt(token)
+            json_payload = json.dumps(payload, indent=2)
 
-        payload = decrypter.decrypt(token)
-        json_payload = json.dumps(payload, indent=2)
-
-    except Exception:
-        logger.error("An error happened when decrypting the frontstage token", exc_info=True)
-        return render_template("errors/500-error.html", frontstage=app.config["FRONTSTAGE_URL"])
+        except Exception:
+            logger.error("An error happened when decrypting the frontstage token", exc_info=True)
+            return render_template("errors/500-error.html", frontstage=app.config["FRONTSTAGE_URL"])
 
     return render_template(
-        "mock_eq_v3.html", title="Mock eQ v3", frontstage=app.config["FRONTSTAGE_URL"], token=token,
+        "mock_eq_v3.html",
+        title="Mock eQ v3",
+        frontstage=app.config["FRONTSTAGE_URL"],
+        token=token,
+        decryptToken=decrypt_token,
         json_payload=json_payload
     )
 

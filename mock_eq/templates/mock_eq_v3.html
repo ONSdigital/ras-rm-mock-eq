@@ -9,9 +9,14 @@
   <p></p>
   <a id="returnLink" href="{{ frontstage }}">Return to Frontstage</a>
   <p></p>
-  <pre>
-    <code style="white-space: pre-wrap; background-color: #eee; border: 1px solid #999; display: block; padding: 20px;">{{ json_payload }}</code>
-  </pre>
+  {% if (decryptToken) and (json_payload is not none) %}
+    <pre>
+      <code style="white-space: pre-wrap; background-color: #eee; border: 1px solid #999; display: block; padding: 20px;">{{ json_payload }}</code>
+    </pre>
+  {% else %}
+      <a id="decryptToken" href="{{ url_for(request.endpoint) }}?decryptToken=True&token={{ token }}">Decrypt JWT</a>
+  <p></p>
+  {% endif %}
 </div>
 
 {% endblock content %}
