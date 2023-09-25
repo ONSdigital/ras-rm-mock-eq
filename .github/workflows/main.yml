@@ -12,7 +12,7 @@ env:
   IMAGE: mock-eq
   REGISTRY_HOSTNAME: europe-west2-docker.pkg.dev
   HOST: ${{ secrets.GOOGLE_PROJECT_ID }}
-  GAR_REPOSITORY: images #TODO add to secrets
+  GAR_REPOSITORY: ${{ secrets.GAR_REPOSITORY }}
   RELEASE_HOST: ${{ secrets.RELEASE_PROJECT_ID }}
   CHART_DIRECTORY: _infra/helm/mock-eq
   SPINNAKER_TOPIC: ${{ secrets.SPINNAKER_TOPIC }}
