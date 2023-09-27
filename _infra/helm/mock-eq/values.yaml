@@ -6,9 +6,9 @@ gcp:
   topic: sdx-receipt-dev
 
 image:
-  devRepo: eu.gcr.io/ons-rasrmbs-management
-  name: eu.gcr.io/ons-rasrmbs-management
-  tag: latest
+  devRepo: europe-west2-docker.pkg.dev/ons-rasrmbs-management/images
+  name: europe-west2-docker.pkg.dev/ons-rasrmbs-management/images
+  tag: pr-26
   pullPolicy: Always
 
 resources:
