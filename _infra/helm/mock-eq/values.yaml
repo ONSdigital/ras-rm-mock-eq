@@ -8,7 +8,7 @@ gcp:
 image:
   devRepo: europe-west2-docker.pkg.dev/ons-rasrmbs-management/images
   name: europe-west2-docker.pkg.dev/ons-rasrmbs-management/images
-  tag: pr-26
+  tag: latest
   pullPolicy: Always
 
 resources:
