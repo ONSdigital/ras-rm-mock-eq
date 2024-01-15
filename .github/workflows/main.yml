@@ -157,7 +157,7 @@ jobs:
           docker push "$REGISTRY_HOSTNAME"/"$RELEASE_HOST"/"$GAR_REPOSITORY"/"$IMAGE":latest
 
       - name: Publish Charts
-        if: github.ref == 'refs/heads/main'
+        if: github.ref != 'refs/heads/main'
         run: |
           cp $IMAGE-${{ env.HELM_VERSION }}.tgz $IMAGE-latest.tgz
           gsutil cp $IMAGE-*.tgz gs://$ARTIFACT_BUCKET/$IMAGE/
