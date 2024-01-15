@@ -50,7 +50,7 @@ jobs:
           gcloud auth configure-docker europe-west2-docker.pkg.dev
 
       - name: pr docker tag
-        if: github.ref == 'refs/heads/main'
+        if: github.ref != 'refs/heads/main'
         id: tag
         run: |
           PR=$(echo "$GITHUB_REF" | awk -F / '{print $3}')
@@ -58,24 +58,24 @@ jobs:
           echo "pr_number=pr-$PR" >> $GITHUB_ENV
         # Build the Docker image
       - name: Build Docker Image
-        if: github.ref == 'refs/heads/main'
+        if: github.ref != 'refs/heads/main'
         run: |
           docker build -t "$REGISTRY_HOSTNAME"/"$HOST"/"$GAR_REPOSITORY"/"$IMAGE":${{ env.pr_number }} -f _infra/docker/Dockerfile .
       - name: Push dev image
-        if: github.ref == 'refs/heads/main'
+        if: github.ref != 'refs/heads/main'
         run: |
           docker push "$REGISTRY_HOSTNAME"/"$HOST"/"$GAR_REPOSITORY"/"$IMAGE":${{ env.pr_number }}
       - name: template helm
         run: |
           helm template $CHART_DIRECTORY
       - name: Set current tag
-        if: github.ref == 'refs/heads/main'
+        if: github.ref != 'refs/heads/main'
         id: vars
         run: |
           git fetch --tags
           echo "tag=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
       - name: update versions
-        if: github.ref == 'refs/heads/main'
+        if: github.ref != 'refs/heads/main'
         env:
           GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
           COMMIT_MSG: |
@@ -128,7 +128,7 @@ jobs:
           fi
 
       - name: output new version
-        if: github.ref != 'refs/heads/main'
+        if: github.ref == 'refs/heads/main'
         id: release
         shell: bash
         run: |
@@ -141,29 +141,29 @@ jobs:
           helm package $CHART_DIRECTORY
 
       - name: Publish dev Chart
-        if: github.ref == 'refs/heads/main'
+        if: github.ref != 'refs/heads/main'
         run: |
           mv $IMAGE-${{ env.HELM_VERSION }}.tgz $IMAGE-${{ env.pr_number }}.tgz
           gsutil cp $IMAGE-*.tgz gs://$ARTIFACT_BUCKET/$IMAGE/
 
       - name: Build Release Image
-        if: github.ref != 'refs/heads/main'
+        if: github.ref == 'refs/heads/main'
         run: |
           docker build -f _infra/docker/Dockerfile -t "$REGISTRY_HOSTNAME"/"$RELEASE_HOST"/"$GAR_REPOSITORY"/"$IMAGE":latest -t "$REGISTRY_HOSTNAME"/"$RELEASE_HOST"/"$GAR_REPOSITORY"/"$IMAGE":${{ env.version }} .
       - name: Push Release image
-        if: github.ref != 'refs/heads/main'
+        if: github.ref == 'refs/heads/main'
         run: |
           docker push "$REGISTRY_HOSTNAME"/"$RELEASE_HOST"/"$GAR_REPOSITORY"/"$IMAGE":${{ env.version }}
           docker push "$REGISTRY_HOSTNAME"/"$RELEASE_HOST"/"$GAR_REPOSITORY"/"$IMAGE":latest
 
       - name: Publish Charts
-        if: github.ref != 'refs/heads/main'
+        if: github.ref == 'refs/heads/main'
         run: |
           cp $IMAGE-${{ env.HELM_VERSION }}.tgz $IMAGE-latest.tgz
           gsutil cp $IMAGE-*.tgz gs://$ARTIFACT_BUCKET/$IMAGE/
 
       - name: Publish Release
-        if: github.ref != 'refs/heads/main'
+        if: github.ref == 'refs/heads/main'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: gh release create ${{ env.version }} --title ${{ env.version }} --notes ${{ env.version }}
