@@ -23,7 +23,7 @@ def mock_eq():
 
 @app.route("/v3/session", methods=["GET"])
 def mock_eq_v3():
-    if not (token:= request.args.get("token")):
+    if not (token := request.args.get("token")):
         logger.error("No token passed")
         return render_template("errors/400-error.html", frontstage=app.config["FRONTSTAGE_URL"])
 
