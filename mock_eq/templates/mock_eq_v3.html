@@ -5,9 +5,12 @@
 {% block content %}
 <div>
   <h1>Welcome to the Mock eQ v3 App!</h1>
-  <a id="completeEq" href="{{ url_for('receipt') }}?token={{ payload }}">Compete eQ v3 Survey and Return to Frontstage</a>
+  <a id="completeEq" href="{{ receipt_url }}">Compete eQ v3 Survey and Return to Frontstage</a>
   <p></p>
   <a id="returnLink" href="{{ frontstage }}">Return to Frontstage</a>
+  </br></br>
+  <h3>Payload</h3>
+  <p>{{ payload }}</p>
 </div>
 
 {% endblock content %}
