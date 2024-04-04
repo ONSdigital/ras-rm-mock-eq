@@ -10,4 +10,4 @@ COPY . /app
 RUN pipenv install --deploy --system
 
 EXPOSE 8080
-CMD ["gunicorn", "-b", "0.0.0.0:8080", "--workers", "4", "--timeout", "300", "mock_eq:app"]
+CMD ["gunicorn", "-b", "0.0.0.0:8080", "--timeout", "300", "mock_eq:app"]
