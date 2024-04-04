@@ -24,3 +24,7 @@ container:
 service:
   type: "ClusterIP"
   port: 8080
+
+dns:
+  enabled: false
+  wellKnownPort: 8080
