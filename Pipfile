@@ -10,8 +10,6 @@ gunicorn = "*"
 gevent = "*"
 sdc-cryptography = "*"
 google-cloud-pubsub = "*"
-setuptools = "*"
-idna = "*"
 
 [dev-packages]
 black = "*"
