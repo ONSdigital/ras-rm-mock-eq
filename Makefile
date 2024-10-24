@@ -9,7 +9,8 @@ test:
 start:
 	pipenv run python3 run.py
 
+#remove -i 70612 once jinja2 is upgrade beyond v3.1.4
 lint:
-	pipenv check -i 51499
+	pipenv check -i 70612
 	pipenv run black --line-length 120 .
 	pipenv run flake8
