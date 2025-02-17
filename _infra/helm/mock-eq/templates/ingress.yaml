@@ -1,0 +1,24 @@
+{{- if .Values.ingress.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Chart.Name }}-ingress
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: frontstage-ip
+    kubernetes.io/ingress.class: gce
+    networking.gke.io/managed-certificates: {{ .Values.ingress.certNameSurveys }}
+    networking.gke.io/v1beta1.FrontendConfig: {{ .Values.ingress.frontendConfigName }}
+
+spec:
+  rules:
+  - host: {{ .Values.ingress.host | quote }}
+    http:
+      paths:
+      - path: /*
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: {{ .Chart.Name }}
+            port:
+              number: {{ .Values.service.port }}
+{{- end }}
