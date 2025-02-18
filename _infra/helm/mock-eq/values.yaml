@@ -11,6 +11,16 @@ image:
   tag: latest
   pullPolicy: Always
 
+frontendConfig:
+  sslPolicy: mock-eq-ingress-ssl-policy
+
+ingress:
+  enabled: false
+  mockEqHost: mock-eq.example.com
+  certNameMockEq: mock-eq-cert
+  frontendConfigName: mock-eq-frontend-config
+  timeoutSec: 30
+
 resources:
   limits:
     cpu: "100m"
