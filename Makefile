@@ -11,6 +11,5 @@ start:
 
 #remove -i 70612 once jinja2 is upgrade beyond v3.1.4
 lint:
-	pipenv check -i 70612
 	pipenv run black --line-length 120 .
 	pipenv run flake8
