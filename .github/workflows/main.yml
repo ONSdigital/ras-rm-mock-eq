@@ -74,25 +74,22 @@ jobs:
         run: |
           helm template $CHART_DIRECTORY
       - name: Set current tag
-        if: github.ref != 'refs/heads/main' && github.event.pull_request.user.login != 'dependabot[bot]'
+        if: github.ref != 'refs/heads/main'
         id: vars
         run: |
           git fetch --tags
           echo "tag=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
       - name: Import BOT GPG key
-        if: github.event.pull_request.user.login != 'dependabot[bot]'
         run: echo $BOT_GPG_KEY | base64 --decode | gpg --batch --import
         env:
           BOT_GPG_KEY: ${{ secrets.BOT_GPG_KEY }}
       - name: Prepare gpg CLI signing step
-        if: github.event.pull_request.user.login != 'dependabot[bot]'
         run: |
           rm -rf /tmp/gpg.sh
           echo '#!/bin/bash' >> /tmp/gpg.sh
           echo 'gpg --batch --pinentry-mode=loopback --passphrase $BOT_GPG_KEY_PASSPHRASE $@' >> /tmp/gpg.sh
           chmod +x /tmp/gpg.sh
       - name: Setup git
-        if: github.event.pull_request.user.login != 'dependabot[bot]'
         run: |
           git config commit.gpgsign true
           git config user.signingkey "${{ secrets.BOT_GPG_KEY_ID }}"
@@ -100,7 +97,7 @@ jobs:
           git config user.name "${{ secrets.BOT_USERNAME }}"
           git config user.email "${{ secrets.BOT_EMAIL }}"
       - name: update versions
-        if: github.ref != 'refs/heads/main' && github.event.pull_request.user.login != 'dependabot[bot]'
+        if: github.ref != 'refs/heads/main'
         env:
           GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
           BOT_GPG_KEY_PASSPHRASE: ${{ secrets.BOT_GPG_KEY_PASSPHRASE }}
