@@ -58,7 +58,7 @@ jobs:
         id: tag
         run: |
           PR=$(echo "$GITHUB_REF" | awk -F / '{print $3}')
-          echo "$GITHUB_REF
+          echo "$GITHUB_REF"
           echo "$PR"
           echo "pr_number=pr-$PR" >> $GITHUB_ENV
         # Build the Docker image
