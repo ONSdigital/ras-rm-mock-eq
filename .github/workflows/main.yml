@@ -54,12 +54,12 @@ jobs:
           gcloud auth configure-docker europe-west2-docker.pkg.dev
 
       - name: pr docker tag
-        if: github.ref != 'refs/heads/main' && github.event.pull_request.user.login != 'dependabot[bot]'
+        if: github.ref != 'refs/heads/main'
         id: tag
         run: |
           PR=$(echo "$GITHUB_REF" | awk -F / '{print $3}')
-          echo "$GITHUB_REF"
           echo "$PR"
+          echo "$GITHUB_ACTOR"
           echo "pr_number=pr-$PR" >> $GITHUB_ENV
         # Build the Docker image
       - name: Build Docker Image
