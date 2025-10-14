@@ -7,8 +7,8 @@ test:
 	echo test
 
 start:
-	uv run python3 run.py
+	uv run --locked python3 run.py
 
 lint:
-	uv run black --line-length 120 .
-	uv run flake8
+	uv run --locked black --line-length 120 .
+	uv run --locked flake8
