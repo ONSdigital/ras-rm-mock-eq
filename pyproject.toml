@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "flask>=3.1.2",
+    "gevent>=25.9.1",
     "google-cloud-pubsub>=2.31.1",
     "gunicorn>=23.0.0",
     "sdc-cryptography>=1.2.1",
