@@ -10,4 +10,4 @@ COPY . /app
 RUN uv sync --frozen --no-dev
 
 EXPOSE 8082
-CMD ["uv", "run", "gunicorn", "-c", "gunicorn.py", "mock_eq:app"]
+CMD ["uv", "run", "--no-dev", "--locked", "gunicorn", "-c", "gunicorn.py", "mock_eq:app"]
