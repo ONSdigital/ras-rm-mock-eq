@@ -7,7 +7,7 @@ RUN pip install uv
 WORKDIR /app
 
 COPY . /app
-RUN uv install --deploy --system
+RUN uv sync --frozen --no-dev
 
 EXPOSE 8082
 CMD ["gunicorn", "-c", "gunicorn.py", "mock_eq:app"]
