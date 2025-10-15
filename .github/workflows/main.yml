@@ -36,7 +36,7 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@3259c6206f993105e3a61b142c2d97bf4b9ef83d # v7.1.0
       - name: Install project dependencies
-        run: uv sync --locked --all-extras --dev
+        run: uv sync --frozen --all-extras --dev
       - name: Run tests
         run: make test
       - name: Authenticate with Google Cloud
@@ -120,7 +120,7 @@ jobs:
             NEW_CHART_VERSION="version: $(echo ${{ env.tag }} | sed -e "s/[0-9]\{1,3\}/$NEW_PATCH/3")"
             sed -i -e "s/appVersion: .*/$NEW_APP_VERSION/g" $CHART_DIRECTORY/Chart.yaml
             sed -i -e "s/version: .*/$NEW_CHART_VERSION/g" $CHART_DIRECTORY/Chart.yaml
-            sed -i -e "s/version: .*/$NEW_APP_VERSION/g" pyproject.toml
+            uv version --bump patch
             git config user.name "ras-rm-pr-bot"
             git config user.email "${{ secrets.BOT_EMAIL }}"
             git remote set-url origin https://ras-rm-pr-bot:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
@@ -128,6 +128,8 @@ jobs:
             git fetch
             git checkout ${{ github.head_ref }}
             git add $CHART_DIRECTORY/Chart.yaml
+            git add pyproject.toml
+            git add uv.lock
             git commit -m "$COMMIT_MSG"
             git push
           else
@@ -136,6 +138,7 @@ jobs:
               NEW_CHART_VERSION="version: $APP_VERSION"
               echo "replacing version with $NEW_CHART_VERSION"
               sed -i -e "s/version: .*/$NEW_CHART_VERSION/g" $CHART_DIRECTORY/Chart.yaml
+              uv version --bump patch
               git config user.name "ras-rm-pr-bot"
               git config user.email "${{ secrets.BOT_EMAIL }}"
               git remote set-url origin https://ras-rm-pr-bot:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
@@ -143,6 +146,8 @@ jobs:
               git fetch
               git checkout ${{ github.head_ref }}
               git add $CHART_DIRECTORY/Chart.yaml
+              git add pyproject.toml
+              git add uv.lock
               git commit -m "$COMMIT_MSG"
               git push
             else

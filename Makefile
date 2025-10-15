@@ -1,14 +1,14 @@
 .PHONY: build test start lint
 
 build:
-	uv sync --locked --all-extras --dev
+	uv sync --all-extras --dev
 
 test:
 	echo test
 
 start:
-	uv run --locked python3 run.py
+	uv run python3 run.py
 
 lint:
-	uv run --locked black --line-length 120 .
-	uv run --locked flake8
+	uv run black --line-length 120 .
+	uv run flake8
