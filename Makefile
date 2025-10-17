@@ -1,7 +1,7 @@
 .PHONY: build test start lint
 
 build:
-	uv sync --all-extras --dev
+	uv sync --dev
 
 test:
 	echo test
