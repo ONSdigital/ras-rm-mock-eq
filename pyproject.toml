@@ -1,0 +1,20 @@
+[project]
+name = "ras-rm-mock-eq"
+version = "1.0.42"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "flask>=3.1.2",
+    "gevent>=25.9.1",
+    "google-cloud-pubsub>=2.31.1",
+    "gunicorn>=23.0.0",
+    "sdc-cryptography>=1.2.1",
+    "structlog>=25.4.0",
+]
+
+[dependency-groups]
+dev = [
+    "black>=25.9.0",
+    "flake8>=7.3.0",
+]
