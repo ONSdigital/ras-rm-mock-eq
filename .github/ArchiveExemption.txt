@@ -1,0 +1,1 @@
+This repository contains a mock of EQ for use in dev testing within ras-rm
