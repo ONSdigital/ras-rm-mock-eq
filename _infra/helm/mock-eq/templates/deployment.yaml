@@ -13,10 +13,7 @@ spec:
       labels:
         app: {{ .Chart.Name }}
     spec:
-      volumes:
-      - name: google-cloud-key
-        secret:
-          secretName: google-application-credentials
+      serviceAccountName: kubernetes-services
       containers:
       - name: {{ .Chart.Name }}
         {{- if eq .Values.image.tag "latest"}}
@@ -41,8 +38,6 @@ spec:
               key: mock-eq
         - name: GOOGLE_CLOUD_PROJECT
           value: "{{ .Values.gcp.project }}"
-        - name: GOOGLE_APPLICATION_CREDENTIALS
-          value: /var/secrets/google/credentials.json
         - name: PUBSUB_TOPIC
           value: "{{ .Values.gcp.topic }}"
         readinessProbe:
