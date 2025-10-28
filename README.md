@@ -8,4 +8,3 @@ Includes the following routes:
 - GET `/v3/session` - Simulate being sent to EQ v3
 - GET `/receipt` - Simulate the completion of an EQ (either version) by sending a message to case and redirecting
 back to frontstage
-
