@@ -1,14 +1,14 @@
 .PHONY: build test start lint
 
 build:
-	pipenv install --dev
+	uv sync --dev
 
 test:
 	echo test
 
 start:
-	pipenv run python3 run.py
+	uv run python3 run.py
 
 lint:
-	pipenv run black --line-length 120 .
-	pipenv run flake8
+	uv run black --line-length 120 .
+	uv run flake8
