@@ -16,6 +16,8 @@ spec:
       serviceAccountName: kubernetes-services
       imagePullSecrets:
         - name: gar-secret
+      nodeSelector:
+        iam.gke.io/gke-metadata-server-enabled: "true"
       containers:
       - name: {{ .Chart.Name }}
         {{- if eq .Values.image.tag "latest"}}
