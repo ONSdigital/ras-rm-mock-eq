@@ -13,7 +13,7 @@ spec:
       labels:
         app: {{ .Chart.Name }}
     spec:
-      serviceAccountName: kubernetes-services
+      serviceAccountName: ras-rm-k8s-services
       imagePullSecrets:
         - name: gar-secret
       nodeSelector:
