@@ -15,5 +15,5 @@ WORKDIR /app
 COPY . /app
 RUN uv sync --frozen --no-dev
 
-EXPOSE 8082
+EXPOSE 8080
 CMD ["uv", "run", "--no-dev", "--frozen", "gunicorn", "-c", "gunicorn.py", "mock_eq:app"]
