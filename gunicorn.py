@@ -69,7 +69,7 @@ backlog = 2048
 #
 
 workers = 1
-worker_class = "gevent"
+worker_class = "sync"
 worker_connections = 1000
 timeout = 0
 keepalive = 2
