@@ -69,7 +69,7 @@ jobs:
         if: github.ref != 'refs/heads/main' && github.actor != 'dependabot[bot]'
         run: |
           docker buildx build -f _infra/docker/Dockerfile --platform linux/amd64,linux/arm64 \
-          -t "$REGISTRY_HOSTNAME"/"$GAR_GOOGLE_PROJECT_ID"/"$GAR_REPOSITORY"/"$IMAGE":${{ env.pr_number }} \
+          -t "$REGISTRY_HOSTNAME"/"$RELEASE_HOST"/"$GAR_REPOSITORY"/"$IMAGE":${{ env.pr_number }} \
           --push .
       - name: template helm
         if: github.actor != 'dependabot[bot]'
@@ -185,8 +185,8 @@ jobs:
         if: github.ref == 'refs/heads/main'
         run: |
           docker buildx build -f _infra/docker/Dockerfile --platform linux/amd64,linux/arm64 \
-          -t "$REGISTRY_HOSTNAME"/"$GAR_GOOGLE_PROJECT_ID"/"$GAR_REPOSITORY"/"$IMAGE":latest \
-          -t "$REGISTRY_HOSTNAME"/"$GAR_GOOGLE_PROJECT_ID"/"$GAR_REPOSITORY"/"$IMAGE":${{ env.version }} \
+          -t "$REGISTRY_HOSTNAME"/"$RELEASE_HOST"/"$GAR_REPOSITORY"/"$IMAGE":latest \
+          -t "$REGISTRY_HOSTNAME"/"$RELEASE_HOST"/"$GAR_REPOSITORY"/"$IMAGE":${{ env.version }} \
           --push .
 
       - name: Publish Charts
