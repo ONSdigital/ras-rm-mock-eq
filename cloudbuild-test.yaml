@@ -10,13 +10,33 @@ steps:
         uv sync --frozen --all-extras --dev
         make test
 
+  # Install and configure Buildx with QEMU
+  - name: 'docker'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        docker run --rm --privileged tonistiigi/binfmt --install all
+        docker buildx create --use --name mybuilder
+
+  # Build and push multiplatform image
+  - name: 'docker'
+    args:
+      - 'buildx'
+      - 'build'
+      - '--dockerfile=_infra/docker/Dockerfile'
+      - '--platform=linux/amd64,linux/arm64'
+      - '--tag=europe-west2-docker.pkg.dev/${_RELEASE}/${_GAR_REPOSITORY}/mock-eq:${SHORT_SHA}'
+      - '--push'
+      - '.'
+
   - name: gcr.io/cloud-builders/docker
     id: "Tag and build and push docker image"
     entrypoint: sh
     args:
       - "-c"
       - |
-        docker buildx build -f _infra/docker/Dockerfile --platform linux/amd64,linux/arm64 \
+        docker build -f _infra/docker/Dockerfile --platform linux/amd64,linux/arm64 \
           -t europe-west2-docker.pkg.dev/${_RELEASE}/${_GAR_REPOSITORY}/mock-eq:${SHORT_SHA} \
           --push .
 
