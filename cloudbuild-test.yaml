@@ -1,0 +1,51 @@
+steps:
+  - name: python:3.12
+    id: "pytest unit test"
+    entrypoint: sh
+    args:
+      - "-c"
+      - |
+        pip install --upgrade pip --user
+        pip install uv
+        uv sync --frozen --all-extras --dev
+        make test
+
+  - name: gcr.io/cloud-builders/docker
+    id: "Tag and build and push docker image"
+    entrypoint: sh
+    args:
+      - "-c"
+      - |        
+        docker buildx build -f _infra/docker/Dockerfile --platform linux/amd64,linux/arm64 \
+          -t "$REGISTRY_HOSTNAME"/"$RELEASE_HOST"/"$GAR_REPOSITORY"/"$IMAGE":${SHORT_SHA} \
+          --push .
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: Install helm
+    entrypoint: /bin/sh
+    args:
+      - '-c'
+      - |
+        curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 && \
+        chmod 700 get_helm.sh && \
+        ./get_helm.sh
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: Push chart
+    entrypoint: /bin/sh
+    args:
+    - '-c'
+    - |
+      helm package ./helm-templates --destination ./package --version 0.1.0 && \
+      gcloud auth configure-docker us-west2-docker.pkg.dev && \
+      helm push ./package/my-app-0.1.0.tgz oci://us-west2-docker.pkg.dev/${PROJECT_ID}/<helm-repo-name>
+
+  - name: 'gcr.io/cloud-builders/pubsub'
+    id: Notify spinnaker
+    entrypoint: /bin/sh
+    args:
+        - '-c'
+        - |
+          gcloud pubsub topics publish $SPINNAKER_TOPIC --project $HOST \
+          --message "{ \"kind\": \"storage#object\", \"name\": \"$IMAGE/$IMAGE-${{ env.HELM_VERSION }}.tgz\", \"bucket\": \"$ARTIFACT_BUCKET\" }" \
+          --attribute cd="actions"
