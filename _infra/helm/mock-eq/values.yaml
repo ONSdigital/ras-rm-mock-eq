@@ -1,13 +1,13 @@
-env: minikube
-namespace: minikube
+env: sandbox
+namespace: rasrms
 
 gcp:
-  project: ras-rm-dev
+  project: ras-rm-sandbox
   topic: sdx-receipt-dev
 
 image:
-  devRepo: europe-west2-docker.pkg.dev/ons-ci-rmrasbs/images
-  name: europe-west2-docker.pkg.dev/ons-ci-rmrasbs/images
+  devRepo: europe-west2-docker.pkg.dev/ras-rm-cloud-deploy-sandbox/images
+  name: europe-west2-docker.pkg.dev/ras-rm-cloud-deploy-sandbox/images
   tag: latest
   pullPolicy: Always
 
@@ -34,3 +34,6 @@ container:
 service:
   type: "ClusterIP"
   port: 8080
+
+clouddeploy:
+  enabled: true
