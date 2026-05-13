@@ -2,7 +2,7 @@ env: sandbox
 namespace: rasrms
 
 gcp:
-  project: ras-rm-sandbox
+  project: ras-rm-cloud-deploy-sandbox
   topic: sdx-receipt-dev
 
 image:
@@ -34,6 +34,3 @@ container:
 service:
   type: "ClusterIP"
   port: 8080
-
-clouddeploy:
-  enabled: true

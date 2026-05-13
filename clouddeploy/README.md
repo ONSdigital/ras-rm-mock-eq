@@ -1,5 +1,12 @@
 # Install commands
 
+## Publishing Helm charts
+
+```bash
+helm push mock-eq-2.0.2.tgz oci://europe-west2-docker.pkg.dev/ras-rm-cloud-deploy-sandbox/charts
+```
+
+
 ## Creating pipelines
 ```bash
 gcloud deploy apply --file=clouddeploy.yaml --region=europe-west2 --project=ras-rm-cloud-deploy-sandbox

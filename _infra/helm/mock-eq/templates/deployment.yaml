@@ -14,11 +14,11 @@ spec:
       labels:
         app: {{ .Chart.Name }}
     spec:
-#      serviceAccountName: ras-rm-k8s-services
-#      imagePullSecrets:
-#        - name: gar-secret
-#      nodeSelector:
-#        iam.gke.io/gke-metadata-server-enabled: "true"
+      serviceAccountName: ras-rm-k8s-services
+      imagePullSecrets:
+        - name: gar-secret
+      nodeSelector:
+        iam.gke.io/gke-metadata-server-enabled: "true"
       containers:
       - name: {{ .Chart.Name }}
         {{- if eq .Values.image.tag "latest"}}
@@ -33,15 +33,15 @@ spec:
         resources:
           {{ toYaml .Values.resources | nindent 12 }}
         env:
-#        - name: JSON_SECRET_KEYS
-#          valueFrom:
-#            secretKeyRef:
-#              name: mock-eq
-#              key: mock-eq
-#        - name: GOOGLE_CLOUD_PROJECT
-#          value: "{{ .Values.gcp.project }}"
-#        - name: PUBSUB_TOPIC
-#          value: "{{ .Values.gcp.topic }}"
+        - name: JSON_SECRET_KEYS
+          valueFrom:
+            secretKeyRef:
+              name: mock-eq
+              key: mock-eq
+        - name: GOOGLE_CLOUD_PROJECT
+          value: "{{ .Values.gcp.project }}"
+        - name: PUBSUB_TOPIC
+          value: "{{ .Values.gcp.topic }}"
         readinessProbe:
           httpGet:
             path: /info
