@@ -10,25 +10,25 @@ steps:
         uv sync --frozen --all-extras --dev
         make test
 
-  - name: gcr.io/cloud-builders/docker
-    id: "Tag and build and push docker image"
-    entrypoint: sh
-    args:
-      - "-c"
-      - |        
-        docker buildx build -f _infra/docker/Dockerfile --platform linux/amd64,linux/arm64 \
-          -t "${REGISTRY_HOSTNAME}"/"${RELEASE_HOST}"/"${GAR_REPOSITORY}"/"${IMAGE}":${SHORT_SHA} \
-          --push .
+#  - name: gcr.io/cloud-builders/docker
+#    id: "Tag and build and push docker image"
+#    entrypoint: sh
+#    args:
+#      - "-c"
+#      - |
+#        docker buildx build -f _infra/docker/Dockerfile --platform linux/amd64,linux/arm64 \
+#          -t europe-west2-docker.pkg.dev/${RELEASE_HOST}/${GAR_REPOSITORY}/${IMAGE}:${SHORT_SHA} \
+#          --push .
 
-  - name: 'gcr.io/cloud-builders/gcloud'
-    id: Install helm
-    entrypoint: /bin/sh
-    args:
-      - '-c'
-      - |
-        curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 && \
-        chmod 700 get_helm.sh && \
-        ./get_helm.sh
+#  - name: 'gcr.io/cloud-builders/gcloud'
+#    id: Install helm
+#    entrypoint: /bin/sh
+#    args:
+#      - '-c'
+#      - |
+#        curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 && \
+#        chmod 700 get_helm.sh && \
+#        ./get_helm.sh
 
 #  - name: 'gcr.io/cloud-builders/gcloud'
 #    id: Push chart
