@@ -19,17 +19,6 @@ steps:
         docker run --rm --privileged tonistiigi/binfmt --install all
         docker buildx create --use --name mybuilder
 
-  # Build and push multiplatform image
-  - name: 'docker'
-    args:
-      - 'buildx'
-      - 'build'
-      - '--f=_infra/docker/Dockerfile'
-      - '--platform=linux/amd64,linux/arm64'
-      - '--tag=europe-west2-docker.pkg.dev/${_RELEASE}/${_GAR_REPOSITORY}/mock-eq:${SHORT_SHA}'
-      - '--push'
-      - '.'
-
   - name: gcr.io/cloud-builders/docker
     id: "Tag and build and push docker image"
     entrypoint: sh
