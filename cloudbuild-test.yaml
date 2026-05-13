@@ -11,8 +11,8 @@ steps:
         make test
 
   # Install and configure Buildx with QEMU
-  - name: 'docker'
-    entrypoint: 'bash'
+  - name: gcr.io/cloud-builders/docker
+    entrypoint: sh
     args:
       - '-c'
       - |
