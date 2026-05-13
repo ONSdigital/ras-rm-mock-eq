@@ -24,7 +24,7 @@ steps:
     args:
       - 'buildx'
       - 'build'
-      - '--dockerfile=_infra/docker/Dockerfile'
+      - '--f=_infra/docker/Dockerfile'
       - '--platform=linux/amd64,linux/arm64'
       - '--tag=europe-west2-docker.pkg.dev/${_RELEASE}/${_GAR_REPOSITORY}/mock-eq:${SHORT_SHA}'
       - '--push'
