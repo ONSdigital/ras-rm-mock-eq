@@ -10,15 +10,15 @@ steps:
         uv sync --frozen --all-extras --dev
         make test
 
-#  - name: gcr.io/cloud-builders/docker
-#    id: "Tag and build and push docker image"
-#    entrypoint: sh
-#    args:
-#      - "-c"
-#      - |
-#        docker buildx build -f _infra/docker/Dockerfile --platform linux/amd64,linux/arm64 \
-#          -t europe-west2-docker.pkg.dev/${RELEASE_HOST}/${GAR_REPOSITORY}/${IMAGE}:${SHORT_SHA} \
-#          --push .
+  - name: gcr.io/cloud-builders/docker
+    id: "Tag and build and push docker image"
+    entrypoint: sh
+    args:
+      - "-c"
+      - |
+        docker buildx build -f _infra/docker/Dockerfile --platform linux/amd64,linux/arm64 \
+          -t europe-west2-docker.pkg.dev/${RELEASE_HOST}/${GAR_REPOSITORY}/mock-eq:${SHORT_SHA} \
+          --push .
 
 #  - name: 'gcr.io/cloud-builders/gcloud'
 #    id: Install helm
@@ -47,5 +47,5 @@ steps:
 #        - '-c'
 #        - |
 #          gcloud pubsub topics publish $SPINNAKER_TOPIC --project $HOST \
-#          --message "{ \"kind\": \"storage#object\", \"name\": \"${IMAGE}/${IMAGE}-${{ env.HELM_VERSION }}.tgz\", \"bucket\": \"${ARTIFACT_BUCKET}\" }" \
+#          --message "{ \"kind\": \"storage#object\", \"name\": \"mock-eq/mock-eq-${{ env.HELM_VERSION }}.tgz\", \"bucket\": \"${ARTIFACT_BUCKET}\" }" \
 #          --attribute cd="actions"
