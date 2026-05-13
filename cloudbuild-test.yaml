@@ -25,9 +25,7 @@ steps:
     args:
       - "-c"
       - |
-        docker build -f _infra/docker/Dockerfile --platform linux/amd64,linux/arm64 \
-        -t europe-west2-docker.pkg.dev/${_RELEASE}/${_GAR_REPOSITORY}/mock-eq:${SHORT_SHA} \
-        --push .
+        docker buildx build -f _infra/docker/Dockerfile --platform linux/amd64,linux/arm64 -t europe-west2-docker.pkg.dev/${_RELEASE}/${_GAR_REPOSITORY}/mock-eq:${SHORT_SHA} --push .
 
 #  - name: 'gcr.io/cloud-builders/gcloud'
 #    id: Install helm
