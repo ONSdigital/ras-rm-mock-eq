@@ -27,32 +27,23 @@ steps:
       - |
         docker buildx build -f _infra/docker/Dockerfile --platform linux/amd64,linux/arm64 -t europe-west2-docker.pkg.dev/${_RELEASE}/${_GAR_REPOSITORY}/mock-eq:${SHORT_SHA} --push .
 
-#  - name: 'gcr.io/cloud-builders/gcloud'
-#    id: Install helm
-#    entrypoint: /bin/sh
-#    args:
-#      - '-c'
-#      - |
-#        curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 && \
-#        chmod 700 get_helm.sh && \
-#        ./get_helm.sh
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: Install helm
+    entrypoint: /bin/sh
+    args:
+      - '-c'
+      - |
+        curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 && \
+        chmod 700 get_helm.sh && \
+        ./get_helm.sh
 
-#  - name: 'gcr.io/cloud-builders/gcloud'
-#    id: Push chart
-#    entrypoint: /bin/sh
-#    args:
-#    - '-c'
-#    - |
-#      helm package ./helm-templates --destination ./package --version 0.1.0 && \
-#      gcloud auth configure-docker us-west2-docker.pkg.dev && \
-#      helm push ./package/my-app-0.1.0.tgz oci://us-west2-docker.pkg.dev/${PROJECT_ID}/${HELM_REPO}
-
-#  - name: 'gcr.io/cloud-builders/pubsub'
-#    id: Notify spinnaker
-#    entrypoint: /bin/sh
-#    args:
-#        - '-c'
-#        - |
-#          gcloud pubsub topics publish $SPINNAKER_TOPIC --project $HOST \
-#          --message "{ \"kind\": \"storage#object\", \"name\": \"mock-eq/mock-eq-${{ env.HELM_VERSION }}.tgz\", \"bucket\": \"${ARTIFACT_BUCKET}\" }" \
-#          --attribute cd="actions"
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: Push chart
+    entrypoint: /bin/sh
+    args:
+    - '-c'
+    - |
+      helm package ._infra/helm/mock-eq --destination ./package && \
+      gcloud auth configure-docker europe-west2-docker.pkg.dev && \
+      CHART_FILE=$(ls ./package/*.tgz | head -n1)
+      helm push ${CHART_FILE} oci://europe-west2-docker.pkg.dev/${_RELEASE}/${_HELM_REPO}
