@@ -45,5 +45,4 @@ steps:
     - |
       helm package ._infra/helm/mock-eq --destination ./package && \
       gcloud auth configure-docker europe-west2-docker.pkg.dev && \
-      CHART_FILE=$(ls ./package/*.tgz | head -n1) && \
-      helm push $CHART_FILE oci://europe-west2-docker.pkg.dev/${_RELEASE}/${_HELM_REPO}
+      helm push $(ls ./package/*.tgz | head -n1) oci://europe-west2-docker.pkg.dev/${_RELEASE}/${_HELM_REPO}
