@@ -11,8 +11,7 @@ manifests:
   helm:
     releases:
     - name: mock-eq
-      chartPath: _infra/helm/mock-
-#  rawYaml:
-#    - k8s.yaml
+      chartPath: oci://europe-west2-docker.pkg.dev/ras-rm-cloud-deploy-sandbox/charts
+
 deploy:
   kubectl: {}
