@@ -29,7 +29,7 @@ steps:
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: Install helm
-    entrypoint: /bin/sh
+    entrypoint: sh
     args:
       - '-c'
       - |
@@ -39,7 +39,7 @@ steps:
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: Push chart
-    entrypoint: /bin/sh
+    entrypoint: sh
     args:
     - '-c'
     - |
