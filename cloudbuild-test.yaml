@@ -27,15 +27,12 @@ steps:
       - |
         docker buildx build -f _infra/docker/Dockerfile --platform linux/amd64,linux/arm64 -t europe-west2-docker.pkg.dev/${_RELEASE}/${_GAR_REPOSITORY}/mock-eq:${SHORT_SHA} --push .
 
-  - name: 'gcr.io/cloud-builders/gcloud'
+  - name: gcr.io/cloud-builders/helm
     id: Install helm & build/push
     entrypoint: sh
     args:
       - '-c'
       - |
-        curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 && \
-        chmod 700 get_helm.sh && \
-        ./get_helm.sh && \
         helm package ._infra/helm/mock-eq --destination ./package && \
         gcloud auth configure-docker europe-west2-docker.pkg.dev && \
         helm push $(ls ./package/*.tgz | head -n1) oci://europe-west2-docker.pkg.dev/${_RELEASE}/${_HELM_REPO}
