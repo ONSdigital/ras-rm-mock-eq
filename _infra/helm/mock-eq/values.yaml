@@ -1,13 +1,13 @@
 env: sandbox
-namespace: rasrms
+namespace: clouddeploy
 
 gcp:
-  project: ras-rm-cloud-deploy-sandbox
+  project: ras-rm-sandbox
   topic: sdx-receipt-dev
 
 image:
-  devRepo: europe-west2-docker.pkg.dev/ras-rm-cloud-deploy-sandbox/images
-  name: europe-west2-docker.pkg.dev/ras-rm-cloud-deploy-sandbox/images
+  devRepo: europe-west2-docker.pkg.dev/ras-rm-sandbox/images
+  name: europe-west2-docker.pkg.dev/ras-rm-sandbox/images
   tag: latest
   pullPolicy: Always
 

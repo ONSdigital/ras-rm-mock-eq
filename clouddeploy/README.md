@@ -3,19 +3,19 @@
 ## Publishing Helm charts
 
 ```bash
-helm push mock-eq-2.0.2.tgz oci://europe-west2-docker.pkg.dev/ras-rm-cloud-deploy-sandbox/charts
+helm push mock-eq-2.0.2.tgz oci://europe-west2-docker.pkg.dev/ras-rm-sandbox/charts
 ```
 
 
 ## Creating pipelines
 ```bash
-gcloud deploy apply --file=clouddeploy.yaml --region=europe-west2 --project=ras-rm-cloud-deploy-sandbox
+gcloud deploy apply --file=clouddeploy.yaml --region=europe-west2 --project=ras-rm-sandbox
 ```
 
 ## Creating release
 ```bash
-gcloud deploy releases create mock-eq-001 --source=. \
---project=ras-rm-cloud-deploy-sandbox \
+gcloud deploy releases create mock-eq-100 --source=. \
+--project=ras-rm-sandbox \
 --region=europe-west2 \
 --delivery-pipeline=ras-rm-mock-eq
 ```

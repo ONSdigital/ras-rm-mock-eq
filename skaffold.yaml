@@ -1,17 +1,11 @@
 apiVersion: skaffold/v4beta7
 kind: Config
-build:
-  artifacts:
-  - image: mock-eq
-    context: .
-    docker:
-      dockerfile: _infra/docker/Dockerfile
 
 manifests:
   helm:
     releases:
     - name: mock-eq
-      chartPath: oci://europe-west2-docker.pkg.dev/ras-rm-cloud-deploy-sandbox/charts
-
-deploy:
-  kubectl: {}
+#      chartPath: oci://europe-west2-docker.pkg.dev/ras-rm-sandbox/charts/mock-eq
+      chartPath: _infra/helm/mock-eq
+      version: 2.0.2
+      namespace: clouddeploy
