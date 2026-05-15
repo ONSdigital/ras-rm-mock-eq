@@ -35,8 +35,7 @@ steps:
       - |
         curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 && \
         chmod 700 get_helm.sh && \
-        ./get_helm.sh
-        
+        ./get_helm.sh && \
         helm package ._infra/helm/mock-eq --destination ./package && \
         gcloud auth configure-docker europe-west2-docker.pkg.dev && \
         helm push $(ls ./package/*.tgz | head -n1) oci://europe-west2-docker.pkg.dev/${_RELEASE}/${_HELM_REPO}
