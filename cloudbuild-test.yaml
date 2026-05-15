@@ -39,7 +39,7 @@ steps:
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: Push chart
-    entrypoint: sh
+    entrypoint: /usr/local/bin
     args:
     - '-c'
     - |
