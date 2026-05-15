@@ -19,20 +19,20 @@ steps:
         docker run --rm --privileged tonistiigi/binfmt --install all
         docker buildx create --use --name mybuilder
 
-  - name: gcr.io/cloud-builders/docker
-    id: "Tag and build and push docker image"
-    entrypoint: sh
-    args:
-      - "-c"
-      - |
-        docker buildx build -f _infra/docker/Dockerfile --platform linux/amd64,linux/arm64 -t europe-west2-docker.pkg.dev/${_RELEASE}/${_GAR_REPOSITORY}/mock-eq:${SHORT_SHA} --push .
-
-  - name: gcr.io/cloud-builders/helm
-    id: Install helm & build/push
-    entrypoint: sh
+  # cloudbuild.yaml - Package and push Helm chart
+    # Install Helm
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'bash'
     args:
       - '-c'
       - |
-        helm package ._infra/helm/mock-eq --destination ./package && \
-        gcloud auth configure-docker europe-west2-docker.pkg.dev && \
-        helm push $(ls ./package/*.tgz | head -n1) oci://europe-west2-docker.pkg.dev/${_RELEASE}/${_HELM_REPO}
+        # Install Helm
+        curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+        # Package the chart
+        helm package _infra/helm/mock-eq/
+
+        # Push to Artifact Registry
+        helm push mock-eq-*.tgz \
+          oci://europe-west2-docker.pkg.dev/${_RELEASE}/${_HELM_REPO}
+
