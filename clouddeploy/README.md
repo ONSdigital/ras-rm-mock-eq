@@ -1,5 +1,10 @@
 # Install commands
 
+# Pre requisites
+```bash
+helm install cluster-setup cluster-setup --create-namespace
+```
+
 ## Publishing Helm charts
 
 ```bash
@@ -9,7 +14,7 @@ helm push mock-eq-2.0.2.tgz oci://europe-west2-docker.pkg.dev/ras-rm-sandbox/cha
 
 ## Creating pipelines
 ```bash
-gcloud deploy apply --file=clouddeploy.yaml --region=europe-west2 --project=ras-rm-sandbox
+gcloud deploy apply --file=clouddeploy/clouddeploy.yaml --region=europe-west2 --project=ras-rm-sandbox
 ```
 
 ## Creating release

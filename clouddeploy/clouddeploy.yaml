@@ -16,3 +16,12 @@ metadata:
 description: sandbox cluster
 gke:
   cluster: projects/ras-rm-sandbox/locations/europe-west2/clusters/k8s-ras
+  dnsEndpoint: true
+
+
+#executionConfigs:
+#  - usages:
+#      - RENDER
+#      - DEPLOY
+#    privatePool:
+#      workerPool: projects/ras-rm-sandbox/locations/europe-west2/workerPools/clouddeploy
