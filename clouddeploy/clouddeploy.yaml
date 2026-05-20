@@ -1,0 +1,27 @@
+apiVersion: deploy.cloud.google.com/v1
+kind: DeliveryPipeline
+metadata:
+  name: ras-rm-mock-eq
+description: Mock EQ delivery pipeline
+serialPipeline:
+  stages:
+    - targetId: sandbox
+      profiles: []
+---
+
+apiVersion: deploy.cloud.google.com/v1
+kind: Target
+metadata:
+  name: sandbox
+description: sandbox cluster
+gke:
+  cluster: projects/ras-rm-sandbox/locations/europe-west2/clusters/k8s-ras
+  dnsEndpoint: true
+
+
+#executionConfigs:
+#  - usages:
+#      - RENDER
+#      - DEPLOY
+#    privatePool:
+#      workerPool: projects/ras-rm-sandbox/locations/europe-west2/workerPools/clouddeploy

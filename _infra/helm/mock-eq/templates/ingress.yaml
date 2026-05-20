@@ -3,6 +3,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ .Chart.Name }}-ingress
+  namespace: {{ .Values.namespace }}
   annotations:
     kubernetes.io/ingress.global-static-ip-name: mock-eq-ip
     networking.gke.io/managed-certificates: {{ .Values.ingress.certNameMockEq }}

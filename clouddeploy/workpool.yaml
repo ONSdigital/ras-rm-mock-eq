@@ -1,0 +1,10 @@
+workerConfig:
+  machineType: e2-standard-4
+  diskSizeGb: 100
+
+networkConfig:
+  peeredNetwork: projects/clouddeploy/global/networks/ras-sandbox
+
+privatePoolV1Config:
+  workerConfig:
+    noExternalIp: true
