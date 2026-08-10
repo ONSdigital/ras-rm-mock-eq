@@ -41,6 +41,8 @@ spec:
           value: "{{ .Values.gcp.project }}"
         - name: PUBSUB_TOPIC
           value: "{{ .Values.gcp.topic }}"
+        - name: FRONTSTAGE_URL
+          value: "{{ .Values.frontstageUrl }}"
         readinessProbe:
           httpGet:
             path: /info

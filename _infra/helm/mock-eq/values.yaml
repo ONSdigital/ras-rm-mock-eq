@@ -5,6 +5,8 @@ gcp:
   project: ras-rm-dev
   topic: sdx-receipt-dev
 
+frontstageUrl: https://localhost:8082/surveys/todo
+
 image:
   devRepo: europe-west2-docker.pkg.dev/ons-ci-rmrasbs/images
   name: europe-west2-docker.pkg.dev/ons-ci-rmrasbs/images
