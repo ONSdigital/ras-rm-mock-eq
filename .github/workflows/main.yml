@@ -1,7 +1,5 @@
 name: Build
 
-# Controls when the action will run. Triggers the workflow on push or pull request
-# events but only for the main branch
 on:
   push:
     branches: [ main ]
@@ -10,17 +8,9 @@ on:
 
 env:
   IMAGE: mock-eq
-  REGISTRY_HOSTNAME: europe-west2-docker.pkg.dev
-  HOST: ${{ secrets.GOOGLE_PROJECT_ID }}
-  GAR_REPOSITORY: ${{ secrets.GAR_REPOSITORY }}
-  RELEASE_HOST: ${{ secrets.RELEASE_PROJECT_ID }}
   CHART_DIRECTORY: _infra/helm/mock-eq
-  SPINNAKER_TOPIC: ${{ secrets.SPINNAKER_TOPIC }}
-  ARTIFACT_BUCKET: ${{ secrets.ARTIFACT_BUCKET }}
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build & package"
   build:
     name: Check Helm and Chart versions
     runs-on: ubuntu-latest
@@ -50,11 +40,6 @@ jobs:
 
       - name: check version has been updated
         if: github.ref != 'refs/heads/main'
-        env:
-          GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
-          BOT_GPG_KEY_PASSPHRASE: ${{ secrets.BOT_GPG_KEY_PASSPHRASE }}
-          COMMIT_MSG: |
-            auto patch increment
         shell: bash
         run: |
           echo "Current git version: ${{ env.tag }}"
