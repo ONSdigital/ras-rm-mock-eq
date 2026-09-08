@@ -1,0 +1,60 @@
+name: Chart Version Check
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+env:
+  CHART_DIRECTORY: _infra/helm/mock-eq
+
+jobs:
+  version-check:
+    name: Validate chart/app version bump in PR
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0
+
+      - name: Check appVersion and version
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          chart_file="$CHART_DIRECTORY/Chart.yaml"
+
+          app_version="$(grep -E '^appVersion:\s+' "$chart_file" | awk '{print $2}' | tr -d '"')"
+          chart_version="$(grep -E '^version:\s+' "$chart_file" | awk '{print $2}' | tr -d '"')"
+
+          echo "PR appVersion: $app_version"
+          echo "PR version: $chart_version"
+
+          if [[ -z "$app_version" || -z "$chart_version" ]]; then
+            echo "Could not parse appVersion/version from $chart_file"
+            exit 1
+          fi
+
+          if [[ "$app_version" != "$chart_version" ]]; then
+            echo "appVersion and version must match in PR"
+            exit 1
+          fi
+
+          git fetch origin main --depth=1
+
+          main_app_version="$(git show "origin/main:$chart_file" | grep -E '^appVersion:\s+' | awk '{print $2}' | tr -d '"')"
+          main_chart_version="$(git show "origin/main:$chart_file" | grep -E '^version:\s+' | awk '{print $2}' | tr -d '"')"
+
+          echo "main appVersion: $main_app_version"
+          echo "main version: $main_chart_version"
+
+          if [[ "$app_version" == "$main_app_version" && "$chart_version" == "$main_chart_version" ]]; then
+            echo "Neither app version or chart version changed from main"
+            exit 1
+          fi
+
+          echo "Version bump check passed."
+

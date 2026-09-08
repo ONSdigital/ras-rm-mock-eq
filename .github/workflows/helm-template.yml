@@ -1,0 +1,29 @@
+name: Helm Template
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+env:
+  CHART_DIRECTORY: _infra/helm/mock-eq
+
+jobs:
+  helm-template:
+    name: Render Helm chart
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Template Helm chart
+        if: github.actor != 'dependabot[bot]'
+        shell: bash
+        run: |
+          set -euo pipefail
+          helm template "$CHART_DIRECTORY" >/dev/null
+
