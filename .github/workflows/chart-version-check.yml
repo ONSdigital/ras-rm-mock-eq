@@ -52,7 +52,7 @@ jobs:
           echo "main version: $main_chart_version"
 
           if [[ "$app_version" == "$main_app_version" && "$chart_version" == "$main_chart_version" ]]; then
-            echo "Neither app version or chart version changed from main"
+            echo "Either app version and/or chart version has not been updated"
             exit 1
           fi
 

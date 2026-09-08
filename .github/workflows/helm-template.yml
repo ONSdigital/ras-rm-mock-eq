@@ -14,7 +14,7 @@ env:
 
 jobs:
   helm-template:
-    name: Render Helm chart
+    name: Template Helm Chart
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -25,5 +25,5 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          helm template "$CHART_DIRECTORY" >/dev/null
+          helm template "$CHART_DIRECTORY"
 
