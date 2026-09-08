@@ -3,4 +3,4 @@ name: mock-eq
 description: A Helm chart for Kubernetes
 version: 2.1.0
 
-appVersion: 2.0.4
+appVersion: 2.1.0
